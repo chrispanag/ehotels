@@ -2,7 +2,7 @@
 
 include 'mysql_connector.php';
 
-class customer {
+class Customer {
 
     function __construct($customer_data) {
         $this->irs_num = $customer_data[0];
@@ -18,9 +18,9 @@ class customer {
 
     static function fetchAll() {
         global $con;
-        $result = $con->query("SELECT * FROM CUSTOMER");
+        $result = $con->query("SELECT * FROM CUSTOMERS");
         $con->close();
-        $customer_data = $result->fetch_all();
+        $customers_data = $result->fetch_all();
         return array_map(array('Customer','createCustomer'), $customers_data);
     }
     

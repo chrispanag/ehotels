@@ -31,6 +31,10 @@ switch ($request_uri[0]) {
         require 'views/hotels.php';
         break;
     // About page
+    case '/add_hotel':
+        require 'views/addHotel.php';
+        break;
+    // About page
     case '/hotel_groups':
         require 'views/hotel_groups.php';
         break;
