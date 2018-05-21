@@ -1,6 +1,6 @@
 <?php 
 
-include 'mysql_connector.php';
+include '../mysql_connector.php';
 
 class Employee {
 

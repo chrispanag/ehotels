@@ -1,14 +1,8 @@
 <?php 
     $title = "Hotels";
     
-    include 'templates/title.php';
-  
+    include '../templates/title.php';
 ?>
-
-<?php
-    $hotels = Hotel::fetchAll();
-?>
-
 <table class="ui large celled table">
   <thead>
     <tr><th>id</th>
@@ -20,7 +14,7 @@
   </tr></thead>
   <tbody>
   <?php 
-    foreach ($hotels as $hotel) { 
+    foreach ($values['hotels'] as $hotel) { 
   ?>
     <tr>
       <td><?php echo($hotel->id) ?></td>

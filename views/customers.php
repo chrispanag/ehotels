@@ -1,14 +1,8 @@
 <?php 
     $title = "Customers";
     
-    include 'templates/title.php';
-    include 'models/customer.php';
+    include '../templates/title.php';
 ?>
-
-<?php
-    $customers = Customer::fetchAll();
-?>
-
 <table class="ui celled table">
   <thead>
     <tr><th>IRS Number</th>
@@ -16,10 +10,11 @@
     <th>First Name</th>
     <th>Last Name</th>
     <th>First Registration</th>
-  </tr></thead>
+  </tr>
+  </thead>
   <tbody>
   <?php 
-    foreach ($customers as $customer) { 
+    foreach ($values['customers'] as $customer) { 
   ?>
     <tr>
       <td><?php echo($customer->irs_num) ?></td>

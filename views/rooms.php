@@ -1,8 +1,8 @@
 <?php 
     $title = "Hotel Rooms";
     
-    include 'templates/title.php';
-    include 'models/hotel_room.php';
+    include '../templates/title.php';
+    include '../models/hotel_room.php';
 ?>
 
 <?php

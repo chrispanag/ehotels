@@ -1,54 +1,57 @@
 <?php
 
-include 'models/hotel.php';
+require_once '../controllers/hotels_controller.php';
+require_once '../controllers/customers_controller.php';
+require_once '../controllers/view_controller.php';
+require_once '../controllers/hotel_groups_controller.php';
+
+$hotelsController = new HotelsController();
+$customersController = new CustomersController();
+$hotelGroupsController = new HotelGroupsController();
 
 $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
-
-include 'templates/header.php';
 
 // Route it up!
 switch ($request_uri[0]) {
     // Home page
     case '/':
-        require 'views/home.php';
+        (new View('home', []))->render();
         break;
     // About page
     case '/rooms':
-        require 'views/rooms.php';
+        (new View('rooms', []))->render();
         break;
     // About page
     case '/employees':
-        require 'views/employees.php';
+        (new View('employees', []))->render();
         break;
     // About page
     case '/available':
-        require 'views/available.php';
+        (new View('available', []))->render();
         break;
     // About page
     case '/customers':
-        require 'views/customers.php';
+        $customersController->showAll();
         break;
     // About page
-    case '/hotels':
-        require 'views/hotels.php';
+    case '/hotels': 
+        $hotelsController->showAll();
         break;
     // About page
     case '/addHotel':
-        require 'views/addHotel.php';
+        (new View('addHotel', []))->render();
         break;
     case '/new_hotel':
-        Hotel::addHotel($_POST);
+        $hotelsController->addHotel();
         break;
     // About page
     case '/hotel_groups':
-        require 'views/hotel_groups.php';
+        $hotelGroupsController->showAll();
         break;
     // Everything else
     default:
-        require 'views/404.php';
+        (new View('404', []))->render();
         break;
 }
-
-include 'templates/footer.php'
 
 ?>

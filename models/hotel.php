@@ -1,6 +1,6 @@
 <?php 
 
-include 'mysql_connector.php';
+include '../mysql_connector.php';
 
 class Hotel {
 
@@ -33,12 +33,7 @@ class Hotel {
     static function store($hotel) {
         global $con;
         $sql = "INSERT INTO HOTELS (email_address, phone_number, number_of_rooms, stars) VALUES ('".$hotel->email."','".$hotel->phone."','".$hotel->rooms."','".$hotel->stars."')";
-        if ($con->query($sql) === FALSE) {
-            echo "Error: " . $sql . "<br>" . $con->error;
-        } else {
-            header('Location: ./hotels', TRUE, 302);
-            die();
-        }
+        return $con->query($sql);
     }
 
     static function addHotel($hotel_data) {

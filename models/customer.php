@@ -1,6 +1,6 @@
 <?php 
 
-include 'mysql_connector.php';
+include '../mysql_connector.php';
 
 class Customer {
 
@@ -19,7 +19,6 @@ class Customer {
     static function fetchAll() {
         global $con;
         $result = $con->query("SELECT * FROM CUSTOMERS");
-        $con->close();
         $customers_data = $result->fetch_all();
         return array_map(array('Customer','createCustomer'), $customers_data);
     }

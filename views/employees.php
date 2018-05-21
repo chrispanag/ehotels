@@ -1,8 +1,8 @@
 <?php 
     $title = "Employees";
     
-    include 'templates/title.php';
-    include 'models/employee.php';
+    include '../templates/title.php';
+    include '../models/employee.php';
 ?>
 
 <?php
