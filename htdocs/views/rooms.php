@@ -1,5 +1,5 @@
 <?php 
-    $title = "Hotel_Rooms";
+    $title = "Hotel Rooms";
     
     include 'templates/title.php';
     include 'models/hotel_room.php';

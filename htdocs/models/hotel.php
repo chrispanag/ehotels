@@ -12,6 +12,11 @@ class Hotel {
         $this->stars = $hotel_data[4];
     }
 
+    function delete() {
+        global $con;
+        $con->query("DELETE FROM HOTELS WHERE id=" . $this->id);
+    }
+
     private static function createHotel($hotel_data) {
         return new Hotel($hotel_data);
     }
@@ -19,7 +24,6 @@ class Hotel {
     static function fetchAll() {
         global $con;
         $result = $con->query("SELECT * FROM HOTELS");
-        $con->close();
         $hotels_data = $result->fetch_all();
         return array_map(array('Hotel','createHotel'), $hotels_data);
     }

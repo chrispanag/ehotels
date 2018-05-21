@@ -12,6 +12,11 @@ class Employee {
         //$this->stars = $hotel_data[4];
     }
 
+    function delete() {
+        global $con;
+        $con->query("DELETE FROM EMPLOYEES WHERE irs_num=" + $this->irs_num);
+    }
+
     private static function createEmployee($employee_data) {
         return new Employee($employee_data);
     }
