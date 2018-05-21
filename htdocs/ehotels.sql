@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: May 21, 2018 at 08:45 PM
+-- Generation Time: May 21, 2018 at 09:39 PM
 -- Server version: 8.0.2-dmr
 -- PHP Version: 7.2.5
 
@@ -32,8 +32,17 @@ CREATE TABLE `CUSTOMERS` (
   `irs_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `ssn` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `first_registration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `CUSTOMERS`
+--
+
+INSERT INTO `CUSTOMERS` (`irs_number`, `ssn`, `first_name`, `last_name`, `first_registration`) VALUES
+('093809900', '3247673246', 'Grigorios', 'Thanasoulas', '2018-05-21 18:21:21'),
+('885784850', '1908309219', 'Sissy', 'Kosma', '2018-04-30 21:14:00');
 
 -- --------------------------------------------------------
 
@@ -47,6 +56,14 @@ CREATE TABLE `EMPLOYEES` (
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `EMPLOYEES`
+--
+
+INSERT INTO `EMPLOYEES` (`irs_number`, `ssn`, `first_name`, `last_name`) VALUES
+('498239873', '8473878190', 'Nikoletta', 'Katsouli'),
+('904257238', '8401374930', 'Christos', 'Panagiotakopoulos');
 
 -- --------------------------------------------------------
 
@@ -67,7 +84,8 @@ CREATE TABLE `HOTELS` (
 --
 
 INSERT INTO `HOTELS` (`id`, `email_address`, `phone_number`, `number_of_rooms`, `stars`) VALUES
-(1, 'chrispanag@gmail.com', '6981684282', 10, 10);
+(5555, 'cityofstars@gmail.com', '2109927187', 20, 3),
+(7890, 'happyholidays@gmail.com', '2105540395', 40, 5);
 
 -- --------------------------------------------------------
 
@@ -82,6 +100,13 @@ CREATE TABLE `HOTEL_GROUPS` (
   `phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `HOTEL_GROUPS`
+--
+
+INSERT INTO `HOTEL_GROUPS` (`id`, `hotels`, `email`, `phone`) VALUES
+('763', '3', 'happy@gmail.com', '2104789909');
+
 -- --------------------------------------------------------
 
 --
@@ -93,14 +118,29 @@ CREATE TABLE `ROOMS` (
   `price` int(255) NOT NULL,
   `capacity` int(255) NOT NULL,
   `view` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `amenities` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `amenities` longtext COLLATE utf8_unicode_ci NOT NULL,
   `repairs_need` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `expendable` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
+-- Dumping data for table `ROOMS`
+--
+
+INSERT INTO `ROOMS` (`id`, `price`, `capacity`, `view`, `amenities`, `repairs_need`, `expendable`) VALUES
+('33439', 40, 2, 'garden ', 'wifi, parking, toiletry, private bathroom, TV', 'no', 'yes'),
+('94809', 90, 3, 'sea', 'wifi, parking, toiletry, private bathroom, TV', 'no', 'yes');
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `CUSTOMERS`
+--
+ALTER TABLE `CUSTOMERS`
+  ADD PRIMARY KEY (`irs_number`),
+  ADD UNIQUE KEY `ssn` (`ssn`);
 
 --
 -- Indexes for table `EMPLOYEES`
@@ -135,7 +175,7 @@ ALTER TABLE `ROOMS`
 -- AUTO_INCREMENT for table `HOTELS`
 --
 ALTER TABLE `HOTELS`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7891;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
