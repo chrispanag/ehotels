@@ -1,5 +1,7 @@
 <?php
 
+include 'models/hotel.php';
+
 $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 
 include 'templates/header.php';
@@ -31,8 +33,11 @@ switch ($request_uri[0]) {
         require 'views/hotels.php';
         break;
     // About page
-    case '/add_hotel':
+    case '/addHotel':
         require 'views/addHotel.php';
+        break;
+    case '/new_hotel':
+        Hotel::addHotel($_POST);
         break;
     // About page
     case '/hotel_groups':

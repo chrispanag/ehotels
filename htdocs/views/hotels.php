@@ -2,7 +2,7 @@
     $title = "Hotels";
     
     include 'templates/title.php';
-    include 'models/hotel.php';
+  
 ?>
 
 <?php

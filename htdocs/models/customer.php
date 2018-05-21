@@ -13,7 +13,7 @@ class Customer {
     }
 
     private static function createCustomer($customer_data) {
-        return new Hotel($customer_data);
+        return new Customer($customer_data);
     }
 
     static function fetchAll() {
