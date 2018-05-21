@@ -30,6 +30,10 @@ switch ($request_uri[0]) {
     case '/hotels':
         require 'views/hotels.php';
         break;
+    // About page
+    case '/hotel_groups':
+        require 'views/hotel_groups.php';
+        break;
     // Everything else
     default:
         require 'views/404.php';
