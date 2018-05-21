@@ -10,8 +10,8 @@
 <title>e-Hotels</title>
 </head>
 <body>
-<div class="ui six item menu">
-  <a class="item" href="./">Home</a>
+<div class="ui inverted menu">
+  <a class="header item" href="./"><h1><i class="home icon"></i> e-Hotels</h1></a>
   <a class="item" href= "./available">Available Rooms</a>
   <a class="item" href= "./customers">Customers</a>
   <a class="item" href= "./employees">Employees</a>

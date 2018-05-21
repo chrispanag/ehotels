@@ -1,4 +1,4 @@
 <?php
-    $title = "Available";
+    $title = "Available Rooms";
     include 'templates/title.php'
 ?>
