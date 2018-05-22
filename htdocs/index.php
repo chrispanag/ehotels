@@ -48,6 +48,10 @@ switch ($request_uri[0]) {
     case '/hotel_groups':
         $hotelGroupsController->showAll();
         break;
+    // About page
+    case '/deleteHotel':
+        $hotelsController->deleteHotel();
+        break;
     // Everything else
     default:
         (new View('404', []))->render();

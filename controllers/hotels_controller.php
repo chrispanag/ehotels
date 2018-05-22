@@ -3,6 +3,7 @@ require_once '../models/hotel.php';
 require_once '../controllers/view_controller.php';
 
 class HotelsController {
+    
     function showAll() {
         $hotels = Hotel::fetchAll();
         (new View('hotels', array('hotels' => $hotels)
@@ -16,8 +17,14 @@ class HotelsController {
         } else {
             header('Location: ./hotels', TRUE, 302);
         }
+        die();   
+    }
+
+    function deleteHotel() {
+        $hotel = new Hotel([$_GET["id"], "", "", "", ""]);
+        $hotel->delete();
+        header('Location: ./hotels', TRUE, 302);
         die();
-        
     }
 }
 

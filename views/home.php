@@ -13,7 +13,7 @@
 <div class="ui centered cards">
 <div class="card">
 <div class="content">
-<div class="header">Αθηνά Κατσούλη</div>
+<div class="header">Αθηνά Σταματίου</div>
       <div class="meta">Φοιτήτρια</div>
       <div class="description">
         Η Αθηνά είναι η front-end designer μας 

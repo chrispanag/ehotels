@@ -24,10 +24,12 @@
       <td><?php echo($hotel->stars) ?></td>
       <td>
       <div class="ui fluid vertical labeled icon buttons">
+        <a href="./deleteHotel?id=<?php echo($hotel->id) ?>"
         <button class="ui button">
           <i class="trash icon"></i>
           Delete
         </button>
+        </a>
         <button class="ui button">
           <i class="edit icon"></i>
           Edit
