@@ -4,10 +4,12 @@ require_once '../controllers/hotels_controller.php';
 require_once '../controllers/customers_controller.php';
 require_once '../controllers/view_controller.php';
 require_once '../controllers/hotel_groups_controller.php';
+require_once '../controllers/room_controller.php';
 
 $hotelsController = new HotelsController();
 $customersController = new CustomersController();
 $hotelGroupsController = new HotelGroupsController();
+$roomsController = new RoomController();
 
 $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 
@@ -19,7 +21,19 @@ switch ($request_uri[0]) {
         break;
     // About page
     case '/rooms':
-        (new View('rooms', []))->render();
+        $roomsController->showAll();
+        break;
+    // About page
+    case '/addHotel%20Room':
+        $roomsController->newRoom();
+        break;
+    // About page
+    case '/new_room':
+        $roomsController->addRoom();
+        break;
+    // About page
+    case '/deleteRoom':
+        $roomsController->deleteRoom();
         break;
     // About page
     case '/employees':

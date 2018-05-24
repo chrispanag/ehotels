@@ -1,4 +1,4 @@
-a<?php 
+<?php 
 require_once '../models/customer.php';
 require_once '../controllers/view_controller.php';
 

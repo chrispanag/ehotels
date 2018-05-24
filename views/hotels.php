@@ -10,6 +10,7 @@
     <th>Phone</th>
     <th>Number Of Rooms</th>
     <th>Stars</th>
+    <th>Hotel Group</th>
     <th>Actions</th>
   </tr></thead>
   <tbody>
@@ -20,8 +21,9 @@
       <td><?php echo($hotel->id) ?></td>
       <td><?php echo($hotel->email) ?></td>
       <td><?php echo($hotel->phone) ?></td>
-      <td><?php echo($hotel->rooms) ?></td>
+      <td><?php echo(count($hotel->rooms())) ?></td>
       <td><?php echo($hotel->stars) ?></td>
+      <td><?php echo($hotel->hotelGroup()->email) ?></td>
       <td>
       <div class="ui fluid vertical labeled icon buttons">
         <a href="./deleteHotel?id=<?php echo($hotel->id) ?>"
@@ -35,7 +37,7 @@
           Edit
         </button>
       </div>
-      </td
+      </td>
     </tr>
   <?php } ?>
   </tbody>

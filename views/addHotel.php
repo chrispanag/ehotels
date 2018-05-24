@@ -15,13 +15,7 @@ Add Hotel
         <label>Phone</label>
         <input type="text" name="phone" placeholder="+XX XXXXXXXXX">
     </div>
-    </div>
-    <div class="fields">
-        <div class="field">
-            <label>Number of Rooms</label>
-            <input type="number" name="rooms" placeholder="XX">
-        </div>
-        <div class="field">
+    <div class="field">
             <label>Stars</label>
             <input type="number" name="stars" placeholder="XX">
         </div>
