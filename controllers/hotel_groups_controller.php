@@ -8,5 +8,21 @@ class HotelGroupsController {
         ))->render();
         die();
     }
+
+    function addHotelGroup() {
+        if (HotelGroup::addHotelGroup($_POST) === FALSE) {
+            echo("Error");
+        } else {
+            header('Location: ./hotel_groups', TRUE, 302);
+        }
+        die();   
+    }
+
+    function deleteHotelGroup() {
+        $hotel_group = new HotelGroup([$_GET["id"], "", "", "", ""]);
+        $hotel_group->delete();
+        header('Location: ./hotel_groups', TRUE, 302);
+        die();
+    }
 }
 ?>

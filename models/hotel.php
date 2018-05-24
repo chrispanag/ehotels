@@ -21,6 +21,7 @@ class Hotel {
             $this->phone = $hotel_data["phone"];
             $this->rooms = $hotel_data["rooms"];
             $this->stars = $hotel_data["stars"];
+            $this->hotel_group_id = $hotel_data["hotel_group_id"];
         }
         
     }
@@ -32,8 +33,10 @@ class Hotel {
 
     static function store($hotel) {
         global $con;
-        $sql = "INSERT INTO HOTELS (email_address, phone_number, number_of_rooms, stars) VALUES ('".$hotel->email."','".$hotel->phone."','".$hotel->rooms."','".$hotel->stars."')";
-        return $con->query($sql);
+        $sql = "INSERT INTO HOTELS (email_address, phone_number, number_of_rooms, stars, hotel_group_id) VALUES ('".$hotel->email."','".$hotel->phone."','".$hotel->rooms."','".$hotel->stars."','".$hotel->hotel_group_id."')";
+        $res = $con->query($sql);
+        echo($con->error);
+        return $res;
     }
 
     static function addHotel($hotel_data) {
@@ -41,7 +44,7 @@ class Hotel {
         return Hotel::store($hotel);
     }
 
-    private static function createHotel($hotel_data) {
+    public static function createHotel($hotel_data) {
         return new Hotel($hotel_data);
     }
 

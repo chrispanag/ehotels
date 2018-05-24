@@ -39,7 +39,7 @@ switch ($request_uri[0]) {
         break;
     // About page
     case '/addHotel':
-        (new View('addHotel', []))->render();
+        $hotelsController->newHotel();
         break;
     case '/new_hotel':
         $hotelsController->addHotel();
@@ -51,6 +51,12 @@ switch ($request_uri[0]) {
     // About page
     case '/addHotel%20Group':
         (new View('addHotelGroup', []))->render();
+        break;
+    case '/new_hotel_group':
+        $hotelGroupsController->addHotelGroup();
+        break;
+    case '/deleteHotelGroup':
+        $hotelGroupsController->deleteHotelGroup();
         break;
     // About page
     case '/deleteHotel':

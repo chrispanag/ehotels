@@ -26,5 +26,14 @@ Add Hotel
             <input type="number" name="stars" placeholder="XX">
         </div>
     </div>
+    <div class="field">
+      <label>Hotel Group</label>
+        <select name="hotel_group_id" class="ui search dropdown">
+            <option value="">Select Hotel Group</option>
+            <?php foreach($values["hotel_groups"] as $hotel_group) { ?>
+                <option value="<?php echo($hotel_group->id) ?>"><?php echo($hotel_group->email) ?></option>
+            <?php } ?>
+        </select>
+    </div>
     <button class="ui button" type="submit">Create</button>
 </form>
