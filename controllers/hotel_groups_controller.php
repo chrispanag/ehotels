@@ -1,5 +1,6 @@
 <?php 
 require_once '../models/hotel_group.php';
+require_once '../controllers/view_controller.php'
 
 class HotelGroupsController {
     function showAll() {
