@@ -9,7 +9,6 @@ class Employee {
         $this->ssn = $employee_data[1];
         $this->first_name = $employee_data[2];
         $this->last_name = $employee_data[3];
-        //$this->stars = $hotel_data[4];
     }
 
     function delete() {
