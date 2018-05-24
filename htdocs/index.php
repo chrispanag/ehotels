@@ -49,6 +49,10 @@ switch ($request_uri[0]) {
         $hotelGroupsController->showAll();
         break;
     // About page
+    case '/addHotel%20Group':
+        (new View('addHotelGroup', []))->render();
+        break;
+    // About page
     case '/deleteHotel':
         $hotelsController->deleteHotel();
         break;

@@ -6,7 +6,7 @@
 ?>
 
 <?php
-    $hotel_rooms = Hotel_Room::fetchAll();
+    $hotel_rooms = HotelRoom::fetchAll();
 ?>
 
 <table class="ui celled table">
