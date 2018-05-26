@@ -3,6 +3,7 @@
 include '../mysql_connector.php';
 
 require_once '../models/hotel_group.php';
+require_once '../models/employee.php';
 
 class Hotel {
 
@@ -18,6 +19,9 @@ class Hotel {
             $this->phone = $hotel_data[2];
             $this->stars = $hotel_data[3];
             $this->hotel_group_id = $hotel_data[4];
+            if (count($hotel_data) > 5) {
+                $this->manager = new Employee(array_slice($hotel_data, 10));
+            }
         } else {
             $this->email = $hotel_data["email"];
             $this->phone = $hotel_data["phone"];
@@ -40,9 +44,18 @@ class Hotel {
         return new HotelGroup($results[0]);
     }
 
+    function store() {
+        global $con;
+        $sql = "INSERT INTO HOTELS (email_address, phone_number, stars, hotel_group_id) VALUES ('".$this->email."','".$this->phone."','".$this->stars."','".$this->hotel_group_id."')";
+        $res = $con->query($sql);
+        echo($con->error);
+        $this->id = $con->insert_id;
+        return $res;
+    }
+
     function newEmployee($position, $employee_id) {
         global $con;
-        $sql = "INTERT INTO WORKS (employee_id, hotel_id, position) VALUES ('".employee_id."','".$this->id."','".$position."')";
+        $sql = "INSERT INTO WORKS (employee_id, hotel_id, position) VALUES ('".$employee_id."','".$this->id."','".$position."')";
         $res = $con->query($sql);
         echo($con->error);
         return $res;
@@ -51,14 +64,6 @@ class Hotel {
     function delete() {
         global $con;
         $con->query("DELETE FROM HOTELS WHERE id=" . $this->id);
-    }
-
-    static function store($hotel) {
-        global $con;
-        $sql = "INSERT INTO HOTELS (email_address, phone_number, stars, hotel_group_id) VALUES ('".$hotel->email."','".$hotel->phone."','".$hotel->stars."','".$hotel->hotel_group_id."')";
-        $res = $con->query($sql);
-        echo($con->error);
-        return $res;
     }
 
     static function addHotel($hotel_data) {
@@ -72,7 +77,8 @@ class Hotel {
 
     static function fetchAll() {
         global $con;
-        $result = $con->query("SELECT * FROM HOTELS");
+        $result = $con->query("SELECT * FROM (HOTELS INNER JOIN WORKS ON WORKS.hotel_id=HOTELS.id AND WORKS.position='manager') INNER JOIN EMPLOYEES ON EMPLOYEES.irs_number=employee_id");
+        echo($con->error);
         $hotels_data = $result->fetch_all();
         return array_map(array('Hotel','createHotel'), $hotels_data);
     }

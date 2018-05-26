@@ -11,6 +11,7 @@
     <th>Number Of Rooms</th>
     <th>Stars</th>
     <th>Hotel Group</th>
+    <th>Manager</th>
     <th>Actions</th>
   </tr></thead>
   <tbody>
@@ -24,6 +25,7 @@
       <td><?php echo(count($hotel->rooms())) ?></td>
       <td><?php echo($hotel->stars) ?></td>
       <td><?php echo($hotel->hotelGroup()->email) ?></td>
+      <td><?php echo($hotel->manager->first_name." ". $hotel->manager->last_name) ?></td>
       <td>
       <div class="ui fluid vertical labeled icon buttons">
         <a href="./deleteHotel?id=<?php echo($hotel->id) ?>"

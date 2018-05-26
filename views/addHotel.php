@@ -29,5 +29,14 @@ Add Hotel
             <?php } ?>
         </select>
     </div>
+    <div class="field">
+      <label>Manager</label>
+        <select name="employee_id" class="ui search dropdown">
+            <option value="">Select Managers</option>
+            <?php foreach($values["employees"] as $employee) { ?>
+                <option value="<?php echo($employee->irs_number) ?>"><?php echo($employee->first_name." ".$employee->last_name) ?> </option>
+            <?php } ?>
+        </select>
+    </div>
     <button class="ui button" type="submit">Create</button>
 </form>
