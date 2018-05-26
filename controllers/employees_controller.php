@@ -12,7 +12,9 @@ class EmployeesController {
     }
 
     function addEmployee() {
-        if (Employee::addEmployee($_POST) === FALSE) {
+        $employee = new Employee($_POST);
+
+        if ($employee->store() === FALSE) {
             echo("Error");
         } else {
             header('Location: ./employees', TRUE, 302);

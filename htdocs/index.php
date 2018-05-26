@@ -5,11 +5,13 @@ require_once '../controllers/customers_controller.php';
 require_once '../controllers/view_controller.php';
 require_once '../controllers/hotel_groups_controller.php';
 require_once '../controllers/room_controller.php';
+require_once '../controllers/employees_controller.php';
 
 $hotelsController = new HotelsController();
 $customersController = new CustomersController();
 $hotelGroupsController = new HotelGroupsController();
 $roomsController = new RoomController();
+$employeesController = new EmployeesController();
 
 $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 
@@ -37,7 +39,18 @@ switch ($request_uri[0]) {
         break;
     // About page
     case '/employees':
-        (new View('employees', []))->render();
+        $employeesController->showAll();
+        break;
+    // About page
+    case '/addEmployee':
+        (new View('addEmployee', []))->render();
+        break;
+    case '/deleteEmployee':
+        $employeesController->deleteEmployee();
+        break;
+    // About page
+    case '/new_employee':
+        $employeesController->addEmployee();
         break;
     // About page
     case '/available':

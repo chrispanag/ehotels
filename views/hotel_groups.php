@@ -33,7 +33,7 @@
           Edit
         </button>
       </div>
-      </td
+      </td>
     </tr>
   <?php } ?>
   </tbody>

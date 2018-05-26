@@ -40,6 +40,14 @@ class Hotel {
         return new HotelGroup($results[0]);
     }
 
+    function newEmployee($position, $employee_id) {
+        global $con;
+        $sql = "INTERT INTO WORKS (employee_id, hotel_id, position) VALUES ('".employee_id."','".$this->id."','".$position."')";
+        $res = $con->query($sql);
+        echo($con->error);
+        return $res;
+    }
+
     function delete() {
         global $con;
         $con->query("DELETE FROM HOTELS WHERE id=" . $this->id);
