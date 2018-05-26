@@ -18,8 +18,8 @@ class Room {
             $this->view = $room_data[3];
             $this->amenities = $room_data[4];
             $this->repairs_need = $room_data[5];
-            $this->expendable = $room_data[5];
-            $this->hotel_id = $room_data[6];
+            $this->expendable = $room_data[6];
+            $this->hotel_id = $room_data[7];
         } else {
             $this->price = $room_data["price"];
             $this->capacity = $room_data["capacity"];
