@@ -61,6 +61,17 @@ switch ($request_uri[0]) {
         $customersController->showAll();
         break;
     // About page
+    case '/addCustomer':
+        (new View('addCustomer', []))->render();
+    break;
+    case '/deleteCustomer':
+        $customersController->deleteCustomer();
+        break;
+    // About page
+    case '/new_customer':
+        $customersController->addCustomer();
+        break;
+    // About page
     case '/hotels': 
         $hotelsController->showAll();
         break;

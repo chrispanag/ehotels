@@ -12,7 +12,8 @@ class CustomersController {
     }
 
     function addCustomer() {
-        if (Customer::addCustomer($_POST) === FALSE) {
+        $customer = new Customer($_POST);
+        if ($customer->store() === FALSE) {
             echo("Error");
         } else {
             header('Location: ./customers', TRUE, 302);
