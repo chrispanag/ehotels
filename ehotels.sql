@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: May 27, 2018 at 04:24 PM
+-- Generation Time: May 27, 2018 at 05:03 PM
 -- Server version: 8.0.2-dmr
 -- PHP Version: 7.2.5
 
@@ -103,6 +103,34 @@ INSERT INTO `HOTEL_GROUPS` (`id`, `email`, `phone`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `RENTS`
+--
+
+CREATE TABLE `RENTS` (
+  `employee_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `start_date` timestamp NOT NULL,
+  `finish_date` timestamp NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `RESERVES`
+--
+
+CREATE TABLE `RESERVES` (
+  `customer_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `start_date` timestamp NOT NULL,
+  `finish_date` timestamp NOT NULL,
+  `paid` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ROOMS`
 --
 
@@ -173,6 +201,21 @@ ALTER TABLE `HOTEL_GROUPS`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `RENTS`
+--
+ALTER TABLE `RENTS`
+  ADD PRIMARY KEY (`employee_id`,`customer_id`,`room_id`),
+  ADD KEY `customer_id_rents` (`customer_id`),
+  ADD KEY `room_id_rents` (`room_id`);
+
+--
+-- Indexes for table `RESERVES`
+--
+ALTER TABLE `RESERVES`
+  ADD PRIMARY KEY (`customer_id`,`room_id`),
+  ADD KEY `room_id` (`room_id`);
+
+--
 -- Indexes for table `ROOMS`
 --
 ALTER TABLE `ROOMS`
@@ -217,6 +260,21 @@ ALTER TABLE `ROOMS`
 --
 ALTER TABLE `HOTELS`
   ADD CONSTRAINT `hotel_groups_hotel` FOREIGN KEY (`hotel_group_id`) REFERENCES `HOTEL_GROUPS` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `RENTS`
+--
+ALTER TABLE `RENTS`
+  ADD CONSTRAINT `customer_id_rents` FOREIGN KEY (`customer_id`) REFERENCES `CUSTOMERS` (`irs_number`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `employee_id_rents` FOREIGN KEY (`employee_id`) REFERENCES `EMPLOYEES` (`irs_number`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `room_id_rents` FOREIGN KEY (`room_id`) REFERENCES `ROOMS` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `RESERVES`
+--
+ALTER TABLE `RESERVES`
+  ADD CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `CUSTOMERS` (`irs_number`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `room_id` FOREIGN KEY (`room_id`) REFERENCES `ROOMS` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ROOMS`
