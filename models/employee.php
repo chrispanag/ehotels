@@ -23,6 +23,14 @@ class Employee {
         }
     }
 
+    function getPositions() {
+        global $con;
+        $sql = "SELECT position, HOTELS.email_address FROM WORKS INNER JOIN HOTELS WHERE WORKS.hotel_id=HOTELS.id AND WORKS.employee_id=".$this->irs_number;
+        $result = $con->query($sql);
+        echo($con->error);
+        return $result->fetch_all();
+    }
+
     function store() {
         global $con;
         $sql = "INSERT INTO EMPLOYEES (irs_number, ssn, first_name, last_name) VALUES ('".$this->irs_number."','".$this->ssn."','".$this->first_name."','".$this->last_name."')";
@@ -33,7 +41,7 @@ class Employee {
 
     function newPosition($position, $hotel_id) {
         global $con;
-        $sql = "INTERT INTO WORKS (employee_id, hotel_id, position) VALUES ('".$this->irs_number."','".$hotel_id."','".$position."')";
+        $sql = "INSERT INTO WORKS (employee_id, hotel_id, position) VALUES ('".$this->irs_number."','".$hotel_id."','".$position."')";
         $res = $con->query($sql);
         echo($con->error);
         return $res;
@@ -53,7 +61,6 @@ class Employee {
     static function fetchAll() {
         global $con;
         $result = $con->query("SELECT * FROM EMPLOYEES");
-        $con->close();
         $employee_data = $result->fetch_all();
         return array_map(array('Employee','createEmployee'), $employee_data);
     }

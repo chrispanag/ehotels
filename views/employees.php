@@ -10,17 +10,27 @@
     <th>SSN</th>
     <th>First Name</th>
     <th>Last Name</th>
+    <th>Positions</th>
     <th>Actions</th>
   </tr></thead>
   <tbody>
   <?php 
     foreach ($values["employees"] as $employee) { 
+      $employee->getPositions();
   ?>
     <tr>
       <td><?php echo($employee->irs_number) ?></td>
       <td><?php echo($employee->ssn) ?></td>
       <td><?php echo($employee->first_name) ?></td>
       <td><?php echo($employee->last_name) ?></td>
+      <td>
+      <p>
+      <?php foreach ($employee->getPositions() as $position) {
+        echo($position[0]." at ". $position[1]);
+        echo("<br />");
+      }?>
+      </p>
+      </td>
       <td>
       <div class="ui fluid vertical labeled icon buttons">
         <a href="./deleteEmployee?id=<?php echo($employee->irs_number) ?>"
