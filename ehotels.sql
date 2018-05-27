@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: May 26, 2018 at 06:08 PM
+-- Generation Time: May 27, 2018 at 04:24 PM
 -- Server version: 8.0.2-dmr
 -- PHP Version: 7.2.5
 
@@ -32,7 +32,8 @@ CREATE TABLE `CUSTOMERS` (
   `irs_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `ssn` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `first_registration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -48,6 +49,15 @@ CREATE TABLE `EMPLOYEES` (
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `EMPLOYEES`
+--
+
+INSERT INTO `EMPLOYEES` (`irs_number`, `ssn`, `first_name`, `last_name`) VALUES
+('23456789', '456789', 'Χρήστος', 'Παναγιωτακόπουλος'),
+('34567890', '45678908998', 'Χρήστος', 'Παναγιωτακόπουλος'),
+('567890', '4567890', 'Αθηνά', 'Σταματίου');
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +71,15 @@ CREATE TABLE `HOTELS` (
   `stars` float NOT NULL,
   `hotel_group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `HOTELS`
+--
+
+INSERT INTO `HOTELS` (`id`, `email_address`, `phone_number`, `stars`, `hotel_group_id`) VALUES
+(25, 'sdafdggh', 'dsafdgfhg', 3, 5),
+(26, 'adsfdf', 'adsrdfgfhgh', 3, 5),
+(27, 'chrispanag@gmail.43343com', '69816842824', 3, 5);
 
 -- --------------------------------------------------------
 
@@ -107,14 +126,30 @@ CREATE TABLE `ROOMS` (
 CREATE TABLE `WORKS` (
   `employee_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `hotel_id` int(11) NOT NULL,
-  `start_date` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `finish_date` timestamp NULL DEFAULT NULL,
+  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `finish_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `position` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
+-- Dumping data for table `WORKS`
+--
+
+INSERT INTO `WORKS` (`employee_id`, `hotel_id`, `start_date`, `finish_date`, `position`) VALUES
+('23456789', 25, '2018-05-26 15:29:36', NULL, 'manager'),
+('23456789', 26, '2018-05-26 15:39:44', NULL, 'manager'),
+('567890', 27, '2018-05-26 15:48:05', NULL, 'manager');
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `CUSTOMERS`
+--
+ALTER TABLE `CUSTOMERS`
+  ADD PRIMARY KEY (`irs_number`),
+  ADD UNIQUE KEY `ssn` (`ssn`);
 
 --
 -- Indexes for table `EMPLOYEES`
@@ -159,7 +194,7 @@ ALTER TABLE `WORKS`
 -- AUTO_INCREMENT for table `HOTELS`
 --
 ALTER TABLE `HOTELS`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `HOTEL_GROUPS`
