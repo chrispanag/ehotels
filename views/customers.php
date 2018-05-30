@@ -1,5 +1,6 @@
 <?php 
     $title = "Customers";
+    $disableButton = False;
     
     include '../templates/title.php';
 ?>

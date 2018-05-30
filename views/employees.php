@@ -1,6 +1,6 @@
 <?php 
     $title = "Employees";
-    
+    $disableButton = False;
     include '../templates/title.php';
 ?>
 <div class="ui container">

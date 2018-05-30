@@ -50,7 +50,8 @@ class HotelGroup {
 
     function store() {
         global $con;
-        $this->address_id = $this->address->store();
+        $this->address->store();
+        $this->address_id = $this->address->id;
         $sql = "INSERT INTO HOTEL_GROUPS (email, phone, address_id) VALUES ('".$this->email."','".$this->phone."','".$this->address_id."')";
         $res = $con->query($sql);
         echo($con->error);

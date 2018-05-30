@@ -1,5 +1,6 @@
 <?php 
     $title = "Rents";
+    $disableButton = True;
     
     include '../templates/title.php';
 ?>

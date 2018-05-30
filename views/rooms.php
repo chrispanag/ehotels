@@ -1,5 +1,6 @@
 <?php 
     $title = "Hotel Rooms";
+    $disableButton = False;
     
     include '../templates/title.php';
 ?>

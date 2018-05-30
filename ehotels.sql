@@ -41,9 +41,10 @@ CREATE TABLE `ADDRESSES` (
 --
 
 INSERT INTO `ADDRESSES` (`address_id`, `street`, `number`, `postal_code`, `city`) VALUES
-(1, 'Υμηττού', '17', '16777', 'Ελληνικό'),
-(2, 'Υμηττού', '17', '16777', 'Ελληνικό'),
-(3, 'Υμηττού 17', '345', '16777', 'Ελληνικό');
+(1, 'street1', '1', '16777', 'Thessaloniki'),
+(2, 'street2', '2', '16779', 'Athens'),
+(3, 'street3', '3', '16778', 'Hania'),
+(4, 'street4', '4', '16710', 'Giannena');
 
 -- --------------------------------------------------------
 
@@ -64,8 +65,6 @@ CREATE TABLE `CUSTOMERS` (
 -- Dumping data for table `CUSTOMERS`
 --
 
-INSERT INTO `CUSTOMERS` (`irs_number`, `ssn`, `first_name`, `last_name`, `first_registration`, `address_id`) VALUES
-('0987654', '45678990', 'Χρήστος', 'Παναγιωτακόπουλος', '2018-05-30 15:13:37', 1);
 
 -- --------------------------------------------------------
 
@@ -84,9 +83,6 @@ CREATE TABLE `EMPLOYEES` (
 --
 -- Dumping data for table `EMPLOYEES`
 --
-
-INSERT INTO `EMPLOYEES` (`irs_number`, `ssn`, `first_name`, `last_name`, `address_id`) VALUES
-('34567890', '34567890', 'Χρήστος', 'Παναγιωτακόπουλος', 1);
 
 -- --------------------------------------------------------
 
@@ -107,8 +103,6 @@ CREATE TABLE `HOTELS` (
 -- Dumping data for table `HOTELS`
 --
 
-INSERT INTO `HOTELS` (`id`, `email_address`, `phone_number`, `stars`, `hotel_group_id`, `address_id`) VALUES
-(28, 'chrispanag@gmail.com', '6981684282', '4', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -127,8 +121,11 @@ CREATE TABLE `HOTEL_GROUPS` (
 -- Dumping data for table `HOTEL_GROUPS`
 --
 
-INSERT INTO `HOTEL_GROUPS` (`id`, `email`, `phone`) VALUES
-(5, 'fghj', 'sdfghj');
+INSERT INTO `HOTEL_GROUPS` (`id`, `email`, `phone`, `address_id`) VALUES
+(0, 'hotel_group1@hotel.com', '6981684285', 1),
+(1, 'hotel_group2@hotel.com', '6981684286', 2),
+(2, 'hotel_group3@hotel.com', '6981684288', 3),
+(3, 'hotel_group4@hotel.com', '6981684289', 4);
 
 -- --------------------------------------------------------
 
@@ -145,10 +142,6 @@ CREATE TABLE `PAYMENT_TRANSACTIONS` (
 --
 -- Dumping data for table `PAYMENT_TRANSACTIONS`
 --
-
-INSERT INTO `PAYMENT_TRANSACTIONS` (`id`, `payment_amount`, `payment_method`) VALUES
-(6, '6', 'CASH');
-
 -- --------------------------------------------------------
 
 --
@@ -167,9 +160,6 @@ CREATE TABLE `RENTS` (
 --
 -- Dumping data for table `RENTS`
 --
-
-INSERT INTO `RENTS` (`employee_id`, `customer_id`, `room_id`, `start_date`, `finish_date`, `payment_id`) VALUES
-('34567890', '0987654', 10, '2018-05-27', '2018-01-02', 6);
 
 -- --------------------------------------------------------
 

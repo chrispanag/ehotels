@@ -53,7 +53,7 @@ switch ($request_uri[0]) {
         break;
     // About page
     case '/addEmployee':
-        (new View('addEmployee', []))->render();
+        $employeesController->newEmployee();
         break;
     case '/deleteEmployee':
         $employeesController->deleteEmployee();
@@ -72,8 +72,8 @@ switch ($request_uri[0]) {
         break;
     // About page
     case '/addCustomer':
-        (new View('addCustomer', []))->render();
-    break;
+        $customersController->newCustomer();
+        break;
     case '/deleteCustomer':
         $customersController->deleteCustomer();
         break;

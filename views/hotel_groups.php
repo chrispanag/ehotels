@@ -1,6 +1,6 @@
 <?php 
     $title = "Hotel Groups";
-    
+    $disableButton = False;
     include '../templates/title.php';
 ?>
 <table class="ui celled table">

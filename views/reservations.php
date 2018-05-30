@@ -1,5 +1,6 @@
 <?php 
     $title = "Reservations";
+    $disableButton = True;
     
     include '../templates/title.php';
 ?>
