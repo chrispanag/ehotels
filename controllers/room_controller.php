@@ -1,6 +1,8 @@
 <?php 
 require_once '../models/room.php';
 require_once '../models/hotel.php';
+require_once '../models/customer.php';
+
 require_once '../controllers/view_controller.php';
 
 class RoomController {
@@ -19,7 +21,8 @@ class RoomController {
     }
 
     function addRoom() {
-        if (Room::addRoom($_POST) === FALSE) {
+        $room = new Room($_POST);
+        if ($room->store() === FALSE) {
             echo("Error");
         } else {
             header('Location: ./rooms', TRUE, 302);
@@ -30,6 +33,20 @@ class RoomController {
     function deleteRoom() {
         $room = new Room([$_GET["id"], "", "", "", "", "", "", ""]);
         $room->delete();
+        header('Location: ./rooms', TRUE, 302);
+        die();
+    }
+
+    function reserveRoomView() {
+        $customers = Customer::fetchAll();
+        (new View('reserveRoom', array('customers' => $customers, 'room_id'=> $_GET["id"])))->render();
+    }
+
+    function reserveRoom() {
+        $room = Room::fetchOne($_POST['room_id']);
+        $paid = '0';
+        if ($_POST['paid'] === 'on') $paid = '1';
+        $room->reserve($_POST['customer_id'], $_POST['start_date'], $_POST['finish_date'], $paid);
         header('Location: ./rooms', TRUE, 302);
         die();
     }

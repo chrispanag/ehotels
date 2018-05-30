@@ -16,7 +16,38 @@ class HotelsController {
     function newHotel() {
         $hotel_groups = HotelGroup::fetchAll();
         $employees = Employee::fetchAll();
-        (new View('addHotel', array('hotel_groups' => $hotel_groups, 'employees' => $employees)))->render();
+        (new View('addHotel', array(
+            'hotel_groups' => $hotel_groups, 
+            'employees' => $employees,
+            'irs_number' => "",
+            'hotel_group_id' => "",
+            'stars' => "XX",
+            'phone' => "+XX XXXXXXXX",
+            'email' => "example@example.com",
+            'address' => new Address(array(
+                'city' => 'City',
+                'number' => 'XX',
+                'postal_code' => 'XXX XX',
+                'street' => 'Street'
+            ))
+        ), 'Add'))->render();
+        die();
+    }
+
+    function editHotel() {
+        $hotel = Hotel::fetchOne($_GET["id"]);
+        $hotel_groups = HotelGroup::fetchAll();
+        $employees = Employee::fetchAll();
+        (new View('addHotel', array(
+            'hotel_groups' => $hotel_groups, 
+            'employees' => $employees,
+            'irs_number' => $hotel->manager->irs_number,
+            'hotel_group_id' => $hotel->hotel_group_id,
+            'stars' => $hotel->stars,
+            'phone' => $hotel->phone,
+            'email' => $hotel->email,
+            'address' => $hotel->address
+        ), 'Edit'))->render();
         die();
     }
 

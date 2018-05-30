@@ -37,6 +37,12 @@ switch ($request_uri[0]) {
     case '/deleteRoom':
         $roomsController->deleteRoom();
         break;
+    case '/reserveRoom':
+        $roomsController->reserveRoomView();
+        break;
+    case '/new_reservation':
+        $roomsController->reserveRoom();
+        break;
     // About page
     case '/employees':
         $employeesController->showAll();
@@ -82,19 +88,24 @@ switch ($request_uri[0]) {
     case '/new_hotel':
         $hotelsController->addHotel();
         break;
+    case '/editHotel':
+        $hotelsController->editHotel();
     // About page
     case '/hotel_groups':
         $hotelGroupsController->showAll();
         break;
     // About page
     case '/addHotel%20Group':
-        (new View('addHotelGroup', []))->render();
+        $hotelGroupsController->addHotelGroupView();
         break;
     case '/new_hotel_group':
         $hotelGroupsController->addHotelGroup();
         break;
     case '/deleteHotelGroup':
         $hotelGroupsController->deleteHotelGroup();
+        break;
+    case '/editHotelGroup':
+        $hotelGroupsController->editHotelGroupView();
         break;
     // About page
     case '/deleteHotel':

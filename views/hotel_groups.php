@@ -13,7 +13,7 @@
   </tr></thead>
   <tbody>
   <?php 
-    foreach ($values['hotel_groups'] as $hotel_group) { 
+    foreach ($hotel_groups as $hotel_group) { 
   ?>
     <tr>
       <td><?php echo($hotel_group->id) ?></td>
@@ -28,10 +28,12 @@
           Delete
         </button>
         </a>
+        <a href="./editHotelGroup?id=<?php echo($hotel_group->id) ?>"
         <button class="ui button">
           <i class="edit icon"></i>
           Edit
         </button>
+        </a>
       </div>
       </td>
     </tr>

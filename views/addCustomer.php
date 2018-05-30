@@ -22,5 +22,6 @@ Add Customer
         <label>Social Security Number</label>
         <input type="text" name="ssn" placeholder="SSN">
     </div>
+    <?php include '../templates/address_fields.php' ?>
     <button class="ui button" type="submit">Create</button>
 </form>

@@ -56,6 +56,14 @@ class HotelGroup {
         $hotel_group = new HotelGroup($hotel_group_data);
         return HotelGroup::store($hotel_group);
     }
+
+    static function fetchOne($id) {
+        global $con;
+        $result = $con->query("SELECT * FROM HOTEL_GROUPS WHERE id=".$id);
+        echo($con->error);
+        $hotels_group_data = $result->fetch_all();
+        return new HotelGroup($hotels_group_data[0]);
+    }
     
 }
 

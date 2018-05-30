@@ -3,10 +3,28 @@ require_once '../models/hotel_group.php';
 require_once '../controllers/view_controller.php';
 
 class HotelGroupsController {
+    
     function showAll() {
         $hotel_groups = HotelGroup::fetchAll();
         (new View('hotel_groups', array('hotel_groups' => $hotel_groups)
         ))->render();
+        die();
+    }
+
+    function addHotelGroupView() {
+        (new View('addHotelGroup', array(
+            'phone' => "+XX XXXXXXXX",
+            'email' => "hotel_group@example.com"
+        ), "Add"))->render();
+        die();
+    }
+
+    function editHotelGroupView() {
+        $hotel_group = HotelGroup::fetchOne($_GET["id"]);
+        (new View('addHotelGroup', array(
+            'phone' => $hotel_group->phone,
+            'email' => $hotel_group->email
+        ), "Edit"))->render();
         die();
     }
 

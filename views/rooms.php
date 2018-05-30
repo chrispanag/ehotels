@@ -39,6 +39,12 @@
           <i class="edit icon"></i>
           Edit
         </button>
+        <a href="./reserveRoom?id=<?php echo($room->id) ?>"
+        <button class="ui button">
+          <i class="play icon"></i>
+          Reserve
+        </button>
+        </a>
       </div>
       </td>
     </tr>

@@ -36,7 +36,7 @@ Add Room
       <label>Hotel</label>
         <select name="hotel_id" class="ui search dropdown">
             <option value="">Select Hotel</option>
-            <?php foreach($values["hotels"] as $hotel) { ?>
+            <?php foreach($hotels as $hotel) { ?>
                 <option value="<?php echo($hotel->id) ?>"><?php echo($hotel->email) ?></option>
             <?php } ?>
         </select>

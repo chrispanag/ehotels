@@ -15,7 +15,7 @@
   </thead>
   <tbody>
   <?php 
-    foreach ($values['customers'] as $customer) { 
+    foreach ($customers as $customer) { 
   ?>
     <tr>
       <td><?php echo($customer->irs_number) ?></td>

@@ -71,6 +71,14 @@ class Hotel {
         return Hotel::store($hotel);
     }
 
+    static function fetchOne($id) {
+        global $con;
+        $result = $con->query("SELECT * FROM (HOTELS INNER JOIN WORKS ON WORKS.hotel_id=HOTELS.id AND WORKS.position='manager') INNER JOIN EMPLOYEES ON EMPLOYEES.irs_number=employee_id WHERE id=".$id);
+        echo($con->error);
+        $hotels_data = $result->fetch_all();
+        return new Hotel($hotels_data[0]);
+    }
+
     public static function createHotel($hotel_data) {
         return new Hotel($hotel_data);
     }

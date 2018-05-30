@@ -34,10 +34,12 @@
           Delete
         </button>
         </a>
+        <a href="./editHotel?id=<?php echo($hotel->id) ?>"
         <button class="ui button">
           <i class="edit icon"></i>
           Edit
         </button>
+        </a>
       </div>
       </td>
     </tr>

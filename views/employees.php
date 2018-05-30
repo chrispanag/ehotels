@@ -15,7 +15,7 @@
   </tr></thead>
   <tbody>
   <?php 
-    foreach ($values["employees"] as $employee) { 
+    foreach ($employees as $employee) { 
       $employee->getPositions();
   ?>
     <tr>

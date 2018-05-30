@@ -2,6 +2,7 @@
 
 require_once '../mysql_connector.php';
 require_once '../models/hotel.php';
+require_once '../models/reservation.php';
 
 class Room {
 
@@ -43,10 +44,23 @@ class Room {
         $con->query("DELETE FROM ROOMS WHERE id=" . $this->id);
     }
 
-    static function store($room) {
+    function reserve($customer_id, $start_date, $finish_date, $paid) {
+        $reservation_data = array(
+            "customer_id" => $customer_id, 
+            "room_id" => $this->id, 
+            "start_date" => $start_date, 
+            "finish_date" => $finish_date, 
+            "paid" => $paid
+        );
+        $reservation = new Reservation($reservation_data);
+        return $reservation->store();
+    }
+
+    function store() {
         global $con;
-        $sql = "INSERT INTO ROOMS (price, capacity, view, amenities, repairs_need, expendable, hotel_id) VALUES ('".$room->price."','".$room->capacity."','".$room->view."','".$room->amenities."','".$room->repairs_need."','".$room->expendable."','".$room->hotel_id."')";
+        $sql = "INSERT INTO ROOMS (price, capacity, view, amenities, repairs_need, expendable, hotel_id) VALUES ('".$this->price."','".$this->capacity."','".$this->view."','".$this->amenities."','".$this->repairs_need."','".$this->expendable."','".$this->hotel_id."')";
         $res = $con->query($sql);
+        $this->id = $con->insert_id;
         echo($con->error);
         return $res;
     }
@@ -65,6 +79,13 @@ class Room {
         $result = $con->query("SELECT * FROM ROOMS");
         $rooms_data = $result->fetch_all();
         return array_map(array('Room','createRoom'), $rooms_data);
+    }
+
+    static function fetchOne($id) {
+        global $con;
+        $result = $con->query("SELECT * FROM ROOMS WHERE id=".$id);
+        $rooms_data = $result->fetch_all();
+        return new Room($rooms_data[0]);
     }
     
 }
