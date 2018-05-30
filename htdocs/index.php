@@ -64,7 +64,7 @@ switch ($request_uri[0]) {
         break;
     // About page
     case '/available':
-        (new View('available', []))->render();
+        $roomsController->showAllAvailable();
         break;
     // About page
     case '/customers':
@@ -129,6 +129,9 @@ switch ($request_uri[0]) {
         break;
     case '/checkIn':
         $reservationsController->checkIn();
+        break;
+    case '/checkInView':
+        $reservationsController->checkInView();
         break;
     case '/rents':
         $rentsController->showAll();

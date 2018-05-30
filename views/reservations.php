@@ -32,7 +32,7 @@
       </td>
       <td>
       <div class="ui fluid vertical labeled icon buttons">
-      <a href="./checkIn?room_id=<?php echo($reservation->room_id) ?>&start_date=<?php echo($reservation->start_date) ?>&employee_id=34567890&payment_method=CASH"
+      <a href="./checkInView?room_id=<?php echo($reservation->room_id) ?>&start_date=<?php echo($reservation->start_date) ?>"
         <button class="ui button">
           <i class="check icon"></i>
           Check In

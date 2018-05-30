@@ -14,6 +14,24 @@ class RoomController {
         die();
     }
 
+    function showAllAvailable() {
+        $start_date = '0000-01-01';
+        $finish_date = '2999-12-31';
+        if (array_key_exists('start_date', $_GET))
+            $start_date = $_GET['start_date'];
+        if (array_key_exists('finish_date', $_GET))
+            $finish_date = $_GET['finish_date'];
+
+        $rooms = Room::fetchAvailable($start_date, $finish_date);
+        (new View('availableRooms', array(
+            'rooms' => $rooms,
+            'start_date' => $start_date,
+            'finish_date' => $finish_date
+            ) 
+        ))->render();
+        die();
+    }
+
     function newRoom() {
         $hotels = Hotel::fetchAll();
         (new View('addRoom', array(
@@ -64,8 +82,8 @@ class RoomController {
         $rooms = Room::fetchAll();
         $customers = Customer::fetchAll();
         (new View('newReservation', array(
-            'start_date' => 'YYYY-MM-DD',
-            'finish_date' => 'YYYY-MM-DD',
+            'start_date' => $_GET['start_date'],
+            'finish_date' => $_GET['finish_date'],
             'rooms' => $rooms, 
             'customers' => $customers,
             'room_id' => $_GET['id']

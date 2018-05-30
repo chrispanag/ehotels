@@ -25,6 +25,7 @@ class Reservation {
             $this->room_id = $reservation_data["room_id"];
             $this->start_date = $reservation_data["start_date"];
             $this->finish_date = $reservation_data["finish_date"];
+            
             if (array_key_exists("paid", $reservation_data)) {
                 $this->paid = '1';
             } else {

@@ -87,6 +87,26 @@ class Room {
         $rooms_data = $result->fetch_all();
         return new Room($rooms_data[0]);
     }
+
+    static function fetchAvailable($start_date, $finish_date) {
+        global $con;
+
+        $searchRENT = "WHERE (RENTS.start_date <= '{$start_date}' AND RENTS.finish_date >= '{$start_date}')
+        OR (RENTS.start_date < '{$finish_date}' AND RENTS.finish_date >= '{$finish_date}' )
+        OR ('{$finish_date}' <= RENTS.start_date AND '{$finish_date}' >= RENTS.start_date)";
+
+        $searchRESERVES = "WHERE  (RESERVES.start_date <= '{$start_date}' AND RESERVES.finish_date >= '{$start_date}')
+        OR (RESERVES.start_date < '{$finish_date}' AND RESERVES.finish_date >= '{$finish_date}' )
+        OR ('{$finish_date}' <= RESERVES.start_date AND '{$finish_date}' >= RESERVES.start_date)";
+
+        $one = "SELECT room_id FROM RENTS ". $searchRENT;
+        $two = "SELECT room_id FROM RESERVES ". $searchRESERVES;
+
+        $result = $con->query("SELECT * FROM ROOMS WHERE (id NOT IN ({$one}) AND id NOT IN ({$two}))");
+        echo($con->error);
+        $rooms_data = $result->fetch_all();
+        return array_map(array('Room','createRoom'), $rooms_data);
+    }
     
 }
 

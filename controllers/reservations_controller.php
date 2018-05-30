@@ -3,6 +3,7 @@
 require_once '../models/reservation.php';
 require_once '../models/room.php';
 require_once '../models/customer.php';
+require_once '../models/employee.php';
 require_once '../models/rent.php';
 
 class ReservationsController {
@@ -42,11 +43,22 @@ class ReservationsController {
         die();
     }
 
+    function checkInView() {
+        $employees = Employee::fetchAll();
+        (new View('newRental', array(
+            'employees' => $employees,
+            'room_id' => $_GET['room_id'],
+            'start_date' => $_GET['start_date']
+        ), 'Add'))->render();
+    }
+
     function checkIn() {
         $reservation = Reservation::fetchOne($_GET['room_id'], $_GET['start_date']);
         $rent = new Rent(array(), $_GET['employee_id'], $reservation, $_GET['payment_method']);
-        $rent->store();
-        $reservation->delete();
+        if ($rent->store())
+            $reservation->delete();
+        else 
+            echo('error');
         header('Location: ./rents', TRUE, 302);
         die();
     }

@@ -9,11 +9,11 @@
     <div class="fields">
         <div class="field">
             <label>Start Date</label>
-            <input type="text" name="start_date" placeholder="<?php echo($start_date) ?>">
+            <input type="text" name="start_date" readonly="" value="<?php echo($start_date) ?>">
         </div>
         <div class="field">
             <label>Finish Date</label>
-            <input type="text" name="finish_date" placeholder="<?php echo($finish_date) ?>">
+            <input type="text" name="finish_date" readonly="" value="<?php echo($finish_date) ?>">
         </div>
     </div>
     <div class="field">
@@ -34,7 +34,7 @@
             <option value="">Select Room</option>
             <?php foreach($rooms as $room) { 
                 $selected = "";
-                if ($room->id === $room_id) $selected = "selected"
+                if ($room->id === $room_id) $selected = "selected";
             ?>
                 <option value="<?php echo($room->id) ?>" <?php echo($selected) ?>><?php echo($room->id) ?></option>
             <?php } ?>

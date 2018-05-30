@@ -43,7 +43,9 @@ class Rent {
         global $con;
         $this->payment->store();
         $this->payment_id = $this->payment->id;
-        $con->query("INSERT INTO RENTS (employee_id, room_id, customer_id, start_date, finish_date, payment_id) VALUES ('".$this->employee_id."','".$this->room_id."','".$this->customer_id."','".$this->start_date."','".$this->finish_date."','".$this->payment_id."')");
+        $res = $con->query("INSERT INTO RENTS (employee_id, room_id, customer_id, start_date, finish_date, payment_id) VALUES ('".$this->employee_id."','".$this->room_id."','".$this->customer_id."','".$this->start_date."','".$this->finish_date."','".$this->payment_id."')");
+        echo($con->error);
+        return $res;
     }
 
     public static function createRent($rent_data) {
