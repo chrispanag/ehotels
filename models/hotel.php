@@ -1,6 +1,6 @@
 <?php 
 
-include '../mysql_connector.php';
+require_once '../mysql_connector.php';
 
 require_once '../models/hotel_group.php';
 require_once '../models/employee.php';
@@ -19,14 +19,19 @@ class Hotel {
             $this->phone = $hotel_data[2];
             $this->stars = $hotel_data[3];
             $this->hotel_group_id = $hotel_data[4];
-            if (count($hotel_data) > 5) {
+            if (count($hotel_data) > 6) {
                 $this->manager = new Employee(array_slice($hotel_data, 10));
             }
+            if (count($hotel_data) > 16) {
+                $this->address = new Address(array_slice($hotel_data, 16));
+            }
+                
         } else {
             $this->email = $hotel_data["email"];
             $this->phone = $hotel_data["phone"];
             $this->stars = $hotel_data["stars"];
             $this->hotel_group_id = $hotel_data["hotel_group_id"];
+            $this->address = new Address($hotel_data);
         }
     }
 
@@ -46,7 +51,8 @@ class Hotel {
 
     function store() {
         global $con;
-        $sql = "INSERT INTO HOTELS (email_address, phone_number, stars, hotel_group_id) VALUES ('".$this->email."','".$this->phone."','".$this->stars."','".$this->hotel_group_id."')";
+        $this->address_id = $this->address->store();
+        $sql = "INSERT INTO HOTELS (email_address, phone_number, stars, hotel_group_id, address_id) VALUES ('".$this->email."','".$this->phone."','".$this->stars."','".$this->hotel_group_id."','".$this->address_id."')";
         $res = $con->query($sql);
         echo($con->error);
         $this->id = $con->insert_id;
@@ -73,7 +79,7 @@ class Hotel {
 
     static function fetchOne($id) {
         global $con;
-        $result = $con->query("SELECT * FROM (HOTELS INNER JOIN WORKS ON WORKS.hotel_id=HOTELS.id AND WORKS.position='manager') INNER JOIN EMPLOYEES ON EMPLOYEES.irs_number=employee_id WHERE id=".$id);
+        $result = $con->query("SELECT * FROM (HOTELS INNER JOIN WORKS ON WORKS.hotel_id=HOTELS.id AND WORKS.position='manager') INNER JOIN EMPLOYEES ON EMPLOYEES.irs_number=employee_id INNER JOIN ADDRESSES ON HOTELS.address_id = ADDRESSES.address_id WHERE id=".$id);
         echo($con->error);
         $hotels_data = $result->fetch_all();
         return new Hotel($hotels_data[0]);
@@ -85,7 +91,7 @@ class Hotel {
 
     static function fetchAll() {
         global $con;
-        $result = $con->query("SELECT * FROM (HOTELS INNER JOIN WORKS ON WORKS.hotel_id=HOTELS.id AND WORKS.position='manager') INNER JOIN EMPLOYEES ON EMPLOYEES.irs_number=employee_id");
+        $result = $con->query("SELECT * FROM (HOTELS INNER JOIN WORKS ON WORKS.hotel_id=HOTELS.id AND WORKS.position='manager') INNER JOIN EMPLOYEES ON EMPLOYEES.irs_number=employee_id INNER JOIN ADDRESSES ON HOTELS.address_id = ADDRESSES.address_id");
         echo($con->error);
         $hotels_data = $result->fetch_all();
         return array_map(array('Hotel','createHotel'), $hotels_data);

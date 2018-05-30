@@ -1,6 +1,6 @@
 <?php 
 
-include '../mysql_connector.php';
+require_once '../mysql_connector.php';
 
 class Employee {
 
@@ -15,11 +15,14 @@ class Employee {
             $this->ssn = $employee_data[1];
             $this->first_name = $employee_data[2];
             $this->last_name = $employee_data[3];
+            if (count($employee_data) > 4)
+                $this->address = new Address(array_slice($employee_data, 5));
         } else {
             $this->irs_number = $employee_data["irs_number"];
             $this->ssn = $employee_data["ssn"];
             $this->first_name = $employee_data["first_name"];
             $this->last_name = $employee_data["last_name"];
+            $this->address = new Address($employee_data);
         }
     }
 
@@ -33,7 +36,8 @@ class Employee {
 
     function store() {
         global $con;
-        $sql = "INSERT INTO EMPLOYEES (irs_number, ssn, first_name, last_name) VALUES ('".$this->irs_number."','".$this->ssn."','".$this->first_name."','".$this->last_name."')";
+        $this->address_id = $this->address->store();
+        $sql = "INSERT INTO EMPLOYEES (irs_number, ssn, first_name, last_name, address_id) VALUES ('".$this->irs_number."','".$this->ssn."','".$this->first_name."','".$this->last_name."','".$this->address_id."')";
         $res = $con->query($sql);
         echo($con->error);
         return $res;
@@ -60,7 +64,7 @@ class Employee {
 
     static function fetchAll() {
         global $con;
-        $result = $con->query("SELECT * FROM EMPLOYEES");
+        $result = $con->query("SELECT * FROM EMPLOYEES INNER JOIN ADDRESSES ON EMPLOYEES.address_id=ADDRESSES.address_id");
         $employee_data = $result->fetch_all();
         return array_map(array('Employee','createEmployee'), $employee_data);
     }

@@ -17,7 +17,8 @@ class Customer {
             $this->first_name = $customer_data[2];
             $this->last_name = $customer_data[3];
             $this->first_registration = $customer_data[4];
-            $this->address = new Address(array_slice($customer_data, 5));
+            if (count($customer_data) > 5)
+                $this->address = new Address(array_slice($customer_data, 6));
         } else {
             $this->irs_number = $customer_data["irs_number"];
             $this->ssn = $customer_data["ssn"];
@@ -51,7 +52,6 @@ class Customer {
         global $con;
         $result = $con->query("SELECT * FROM CUSTOMERS INNER JOIN ADDRESSES ON CUSTOMERS.address_id = ADDRESSES.address_id");
         $customers_data = $result->fetch_all();
-        print_r($customers_data);
         return array_map(array('Customer','createCustomer'), $customers_data);
     }
     

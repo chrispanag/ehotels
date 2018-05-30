@@ -9,8 +9,9 @@
     <th>SSN</th>
     <th>First Name</th>
     <th>Last Name</th>
+    <th>Address</th>
     <th>First Registration</th>
-    <th>Customers</th>
+    <th>Actions</th>
   </tr>
   </thead>
   <tbody>
@@ -22,6 +23,7 @@
       <td><?php echo($customer->ssn) ?></td>
       <td><?php echo($customer->first_name) ?></td>
       <td><?php echo($customer->last_name) ?></td>
+      <td><?php echo($customer->address->serialize()) ?></td>
       <td><?php echo($customer->first_registration) ?></td>
       <td>
       <div class="ui fluid vertical labeled icon buttons">

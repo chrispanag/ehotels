@@ -33,6 +33,10 @@ class Address {
         return $res;
     }
 
+    function serialize() {
+        return $this->street . " " . $this->number . ", " . $this->city . ", " . $this->postal_code;
+    }
+
 }
 
 ?>

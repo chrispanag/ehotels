@@ -10,6 +10,7 @@
     <th>SSN</th>
     <th>First Name</th>
     <th>Last Name</th>
+    <th>Address</th>
     <th>Positions</th>
     <th>Actions</th>
   </tr></thead>
@@ -23,6 +24,7 @@
       <td><?php echo($employee->ssn) ?></td>
       <td><?php echo($employee->first_name) ?></td>
       <td><?php echo($employee->last_name) ?></td>
+      <td><?php echo($employee->address->serialize()) ?></td>
       <td>
       <p>
       <?php foreach ($employee->getPositions() as $position) {

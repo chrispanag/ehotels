@@ -6,12 +6,14 @@ require_once '../controllers/view_controller.php';
 require_once '../controllers/hotel_groups_controller.php';
 require_once '../controllers/room_controller.php';
 require_once '../controllers/employees_controller.php';
+require_once '../controllers/reservations_controller.php';
 
 $hotelsController = new HotelsController();
 $customersController = new CustomersController();
 $hotelGroupsController = new HotelGroupsController();
 $roomsController = new RoomController();
 $employeesController = new EmployeesController();
+$reservationsController = new ReservationsController();
 
 $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 
@@ -40,9 +42,9 @@ switch ($request_uri[0]) {
     case '/reserveRoom':
         $roomsController->reserveRoomView();
         break;
-    case '/new_reservation':
+    /*case '/new_reservation':
         $roomsController->reserveRoom();
-        break;
+        break;*/
     // About page
     case '/employees':
         $employeesController->showAll();
@@ -110,6 +112,12 @@ switch ($request_uri[0]) {
     // About page
     case '/deleteHotel':
         $hotelsController->deleteHotel();
+        break;
+    case '/newReservation': 
+        $reservationsController->newReservation();
+        break;
+    case '/new_reservation': 
+        $reservationsController->addReservation();
         break;
     // Everything else
     default:

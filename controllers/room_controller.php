@@ -38,16 +38,15 @@ class RoomController {
     }
 
     function reserveRoomView() {
+        $rooms = Room::fetchAll();
         $customers = Customer::fetchAll();
-        (new View('reserveRoom', array('customers' => $customers, 'room_id'=> $_GET["id"])))->render();
-    }
-
-    function reserveRoom() {
-        $room = Room::fetchOne($_POST['room_id']);
-        $paid = '0';
-        if ($_POST['paid'] === 'on') $paid = '1';
-        $room->reserve($_POST['customer_id'], $_POST['start_date'], $_POST['finish_date'], $paid);
-        header('Location: ./rooms', TRUE, 302);
+        (new View('newReservation', array(
+            'start_date' => 'YYYY-MM-DD',
+            'finish_date' => 'YYYY-MM-DD',
+            'rooms' => $rooms, 
+            'customers' => $customers,
+            'room_id' => $_GET['id']
+        ), 'Add'))->render();
         die();
     }
 }

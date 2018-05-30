@@ -10,6 +10,7 @@
     <th>Phone</th>
     <th>Number Of Rooms</th>
     <th>Stars</th>
+    <th>Address</th>
     <th>Hotel Group</th>
     <th>Manager</th>
     <th>Actions</th>
@@ -24,6 +25,7 @@
       <td><?php echo($hotel->phone) ?></td>
       <td><?php echo(count($hotel->rooms())) ?></td>
       <td><?php echo($hotel->stars) ?></td>
+      <td><?php echo($hotel->address->serialize()) ?></td>
       <td><?php echo($hotel->hotelGroup()->email) ?></td>
       <td><?php echo($hotel->manager->first_name." ". $hotel->manager->last_name) ?></td>
       <td>

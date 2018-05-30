@@ -1,5 +1,7 @@
 <?php 
 
+require_once '../mysql_connector.php';
+
 class Reservation {
 
     private function isAssoc(array $arr) {
@@ -19,7 +21,11 @@ class Reservation {
             $this->room_id = $reservation_data["room_id"];
             $this->start_date = $reservation_data["start_date"];
             $this->finish_date = $reservation_data["finish_date"];
-            $this->paid = $reservation_data["paid"];
+            if ($reservation_data["paid"] == "on") {
+                $this->paid = true;
+            } else {
+                $this->paid = false;
+            }
         }
     }
 
