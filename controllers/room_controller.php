@@ -16,9 +16,32 @@ class RoomController {
 
     function newRoom() {
         $hotels = Hotel::fetchAll();
-        (new View('addRoom', array('hotels' => $hotels)))->render();
+        (new View('addRoom', array(
+            'hotels' => $hotels,
+            'price' => "€",
+            'capacity' => "",
+            'view' => "",
+            'amenities' => "",
+            'repairs_need' => "What needs to be fixed",
+            'expendable' => "",
+        ), 'Add'))->render();
         die();
     }
+
+    function editRoom() {
+        $room= Room::fetchOne($_GET["id"]);
+        (new View('addRoom', array(
+            'hotels' => $hotels,
+            'price' => $room->price,
+            'capacity' => $room->capacity,
+            'view' => $room->view,
+            'amenities' => $room->amenities,
+            'repairs_need' => $room->repairs_need,
+            'expendable' => $room->expendable,
+        ), 'Edit'))->render();
+        die();
+    }
+
 
     function addRoom() {
         $room = new Room($_POST);

@@ -43,7 +43,7 @@ class HotelsController {
             'employees' => $employees,
             'irs_number' => $hotel->manager->irs_number,
             'hotel_group_id' => $hotel->hotel_group_id,
-            'stars' => $hotel->stars,
+                'stars' => $hotel->stars,
             'phone' => $hotel->phone,
             'email' => $hotel->email,
             'address' => $hotel->address

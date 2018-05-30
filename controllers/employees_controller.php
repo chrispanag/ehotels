@@ -11,6 +11,36 @@ class EmployeesController {
         die();
     }
 
+    function newEmployee() {
+        (new View('addEmployee', array(
+            'irs_number' => "",
+            'ssn' => "Social Security Number",
+            'first_name' => "First Name",
+            'last_name' => "Last Name",
+            'address' => new Address(array(
+                'city' => 'City',
+                'number' => 'XX',
+                'postal_code' => 'XXX XX',
+                'street' => 'Street'
+            ))
+        ), 'Add'))->render();
+        die();
+    }
+
+    function editEmployee() {
+        $employee= Employee::fetchOne($_GET["id"]);
+        $employees = Employee::fetchAll();
+        (new View('addEmployee', array(
+            'employees' => $employees,
+            'first_name' => $employee->first_name,
+            'last_name' => $employee->last_name,
+            'ssn' => $employee->ssn,
+            'irs_number' => $employees->irs_number,
+            'address' => $hotel->address
+        ), 'Edit'))->render();
+        die();
+    }
+
     function addEmployee() {
         $employee = new Employee($_POST);
 

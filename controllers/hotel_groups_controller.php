@@ -11,6 +11,21 @@ class HotelGroupsController {
         die();
     }
 
+    function newHotelGroup() {
+        (new View('addHotelGroup', array(
+            'hotel_groups' => $hotel_groups, 
+            'phone' => "+XX XXXXXXXX",
+            'email' => "example@example.com",
+            'address' => new Address(array(
+                'city' => 'City',
+                'number' => 'XX',
+                'postal_code' => 'XXX XX',
+                'street' => 'Street'
+            ))
+        ), 'Add'))->render();
+        die();
+    }
+
     function addHotelGroupView() {
         (new View('addHotelGroup', array(
             'phone' => "+XX XXXXXXXX",
@@ -23,7 +38,8 @@ class HotelGroupsController {
         $hotel_group = HotelGroup::fetchOne($_GET["id"]);
         (new View('addHotelGroup', array(
             'phone' => $hotel_group->phone,
-            'email' => $hotel_group->email
+            'email' => $hotel_group->email,
+            'address' => $hotel_group->address
         ), "Edit"))->render();
         die();
     }
