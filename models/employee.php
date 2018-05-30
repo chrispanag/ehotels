@@ -15,7 +15,7 @@ class Employee {
             $this->ssn = $employee_data[1];
             $this->first_name = $employee_data[2];
             $this->last_name = $employee_data[3];
-            if (count($employee_data) > 4)
+            if (count($employee_data) > 5)
                 $this->address = new Address(array_slice($employee_data, 5));
         } else {
             $this->irs_number = $employee_data["irs_number"];

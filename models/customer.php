@@ -17,7 +17,7 @@ class Customer {
             $this->first_name = $customer_data[2];
             $this->last_name = $customer_data[3];
             $this->first_registration = $customer_data[4];
-            if (count($customer_data) > 5)
+            if (count($customer_data) > 6)
                 $this->address = new Address(array_slice($customer_data, 6));
         } else {
             $this->irs_number = $customer_data["irs_number"];

@@ -16,6 +16,10 @@ class Reservation {
             $this->start_date = $reservation_data[2];
             $this->finish_date = $reservation_data[3];
             $this->paid = $reservation_data[4];
+            if (count($reservation_data) < 12)
+                $this->customer = new Customer(array_slice($reservation_data, 5, 5));
+            else if (count($reservation_data) > 12)
+                $this->room = new Room(array_slice($reservation_data, 5));
         } else {
             $this->customer_id = $reservation_data["customer_id"];
             $this->room_id = $reservation_data["room_id"];
@@ -37,6 +41,12 @@ class Reservation {
         return $res;
     }
 
+    function delete() {
+        global $con;
+        $con->query("DELETE FROM RESERVES WHERE (room_id=" . $this->room_id . " AND start_date='". $this->start_date ."')");
+        echo($con->error);
+    }
+
     public static function createReservation($reservation_data) {
         return new Reservation($reservation_data);
     }
@@ -48,6 +58,14 @@ class Reservation {
         $reservations_data = $result->fetch_all();
         return array_map(array('Reservation','createReservation'), $reservations_data);
     }
+
+    static function fetchOne($room_id, $start_date) {
+        global $con;
+        $result = $con->query("SELECT * FROM RESERVES INNER JOIN ROOMS ON ROOMS.id = RESERVES.room_id WHERE room_id=" . $room_id . " AND start_date='". $start_date ."'");
+        $reservations_data = $result->fetch_all();
+        return new Reservation($reservations_data[0]);
+    }
+
 }
 
 ?>

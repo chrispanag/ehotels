@@ -54,7 +54,7 @@ class CustomersController {
     }
 
     function deleteCustomer() {
-        $customer = new Customer([$_GET["id"], "", "", "", ""]);
+        $customer = new Customer(array($_GET["id"], "", "", "", ""));
         $customer->delete();
         header('Location: ./customers', TRUE, 302);
         die();

@@ -18,7 +18,7 @@
     foreach ($reservations as $reservation) { 
   ?>
     <tr>
-      <td><?php echo($reservation->customer_id) ?></td>
+      <td><?php echo($reservation->customer->first_name . " " . $reservation->customer->last_name) ?></td>
       <td><?php echo($reservation->start_date) ?></td>
       <td><?php echo($reservation->finish_date) ?></td>
       <td><?php echo($reservation->room_id) ?></td>
@@ -31,13 +31,13 @@
       </td>
       <td>
       <div class="ui fluid vertical labeled icon buttons">
-      <a href="./checkIn?id=<?php echo($reservation->customer_id) ?>"
+      <a href="./checkIn?room_id=<?php echo($reservation->room_id) ?>&start_date=<?php echo($reservation->start_date) ?>&employee_id=34567890&payment_method=CASH"
         <button class="ui button">
           <i class="check icon"></i>
           Check In
         </button>
         </a>
-        <a href="./deleteReservation?id=<?php echo($reservation->customer_id) ?>"
+        <a href="./deleteReservation?room_id=<?php echo($reservation->room_id) ?>&start_date=<?php echo($reservation->start_date) ?>"
         <button class="ui button">
           <i class="x icon"></i>
           Cancel
