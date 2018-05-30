@@ -8,6 +8,7 @@
     <tr><th>id</th>
     <th>Email</th>
     <th>Phone</th>
+    <th>Address</th>
     <th>Hotel Number</th>
     <th>Actions</th>
   </tr></thead>
@@ -19,6 +20,7 @@
       <td><?php echo($hotel_group->id) ?></td>
       <td><?php echo($hotel_group->email) ?></td>
       <td><?php echo($hotel_group->phone) ?></td>
+      <td><?php echo($hotel_group->address->serialize()) ?></td>
       <td><?php echo(count($hotel_group->getHotels())) ?></td>
       <td>
       <div class="ui fluid vertical labeled icon buttons">

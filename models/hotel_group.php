@@ -42,7 +42,8 @@ class HotelGroup {
 
     static function fetchAll() {
         global $con;
-        $result = $con->query("SELECT * FROM HOTEL_GROUPS");
+        $result = $con->query("SELECT * FROM HOTEL_GROUPS INNER JOIN ADDRESSES ON HOTEL_GROUPS.address_id = ADDRESSES.address_id");
+        echo($con->error);
         $hotel_groups_data = $result->fetch_all();
         return array_map(array('HotelGroup','createHotel_Group'), $hotel_groups_data);
     }
