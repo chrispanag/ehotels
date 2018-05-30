@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: May 27, 2018 at 05:03 PM
+-- Generation Time: May 30, 2018 at 05:49 PM
 -- Server version: 8.0.2-dmr
 -- PHP Version: 7.2.5
 
@@ -25,6 +25,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ADDRESSES`
+--
+
+CREATE TABLE `ADDRESSES` (
+  `address_id` int(11) NOT NULL,
+  `street` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `postal_code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `CUSTOMERS`
 --
 
@@ -33,7 +47,8 @@ CREATE TABLE `CUSTOMERS` (
   `ssn` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `first_registration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `first_registration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -46,17 +61,9 @@ CREATE TABLE `EMPLOYEES` (
   `irs_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `ssn` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `EMPLOYEES`
---
-
-INSERT INTO `EMPLOYEES` (`irs_number`, `ssn`, `first_name`, `last_name`) VALUES
-('23456789', '456789', 'Χρήστος', 'Παναγιωτακόπουλος'),
-('34567890', '45678908998', 'Χρήστος', 'Παναγιωτακόπουλος'),
-('567890', '4567890', 'Αθηνά', 'Σταματίου');
 
 -- --------------------------------------------------------
 
@@ -69,17 +76,9 @@ CREATE TABLE `HOTELS` (
   `email_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `phone_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `stars` float NOT NULL,
-  `hotel_group_id` int(11) NOT NULL
+  `hotel_group_id` int(11) NOT NULL,
+  `address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `HOTELS`
---
-
-INSERT INTO `HOTELS` (`id`, `email_address`, `phone_number`, `stars`, `hotel_group_id`) VALUES
-(25, 'sdafdggh', 'dsafdgfhg', 3, 5),
-(26, 'adsfdf', 'adsrdfgfhgh', 3, 5),
-(27, 'chrispanag@gmail.43343com', '69816842824', 3, 5);
 
 -- --------------------------------------------------------
 
@@ -160,31 +159,30 @@ CREATE TABLE `WORKS` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `WORKS`
---
-
-INSERT INTO `WORKS` (`employee_id`, `hotel_id`, `start_date`, `finish_date`, `position`) VALUES
-('23456789', 25, '2018-05-26 15:29:36', NULL, 'manager'),
-('23456789', 26, '2018-05-26 15:39:44', NULL, 'manager'),
-('567890', 27, '2018-05-26 15:48:05', NULL, 'manager');
-
---
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `ADDRESSES`
+--
+ALTER TABLE `ADDRESSES`
+  ADD PRIMARY KEY (`address_id`);
 
 --
 -- Indexes for table `CUSTOMERS`
 --
 ALTER TABLE `CUSTOMERS`
   ADD PRIMARY KEY (`irs_number`),
-  ADD UNIQUE KEY `ssn` (`ssn`);
+  ADD UNIQUE KEY `ssn` (`ssn`),
+  ADD KEY `address_customer` (`address_id`);
 
 --
 -- Indexes for table `EMPLOYEES`
 --
 ALTER TABLE `EMPLOYEES`
   ADD PRIMARY KEY (`irs_number`),
-  ADD UNIQUE KEY `ssn` (`ssn`);
+  ADD UNIQUE KEY `ssn` (`ssn`),
+  ADD KEY `employee_address` (`address_id`);
 
 --
 -- Indexes for table `HOTELS`
@@ -192,7 +190,8 @@ ALTER TABLE `EMPLOYEES`
 ALTER TABLE `HOTELS`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email_address`),
-  ADD KEY `hotel_groups_hotel` (`hotel_group_id`);
+  ADD KEY `hotel_groups_hotel` (`hotel_group_id`),
+  ADD KEY `address_hotel` (`address_id`);
 
 --
 -- Indexes for table `HOTEL_GROUPS`
@@ -234,6 +233,12 @@ ALTER TABLE `WORKS`
 --
 
 --
+-- AUTO_INCREMENT for table `ADDRESSES`
+--
+ALTER TABLE `ADDRESSES`
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `HOTELS`
 --
 ALTER TABLE `HOTELS`
@@ -249,16 +254,29 @@ ALTER TABLE `HOTEL_GROUPS`
 -- AUTO_INCREMENT for table `ROOMS`
 --
 ALTER TABLE `ROOMS`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `CUSTOMERS`
+--
+ALTER TABLE `CUSTOMERS`
+  ADD CONSTRAINT `address_customer` FOREIGN KEY (`address_id`) REFERENCES `ADDRESSES` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `EMPLOYEES`
+--
+ALTER TABLE `EMPLOYEES`
+  ADD CONSTRAINT `employee_address` FOREIGN KEY (`address_id`) REFERENCES `ADDRESSES` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `HOTELS`
 --
 ALTER TABLE `HOTELS`
+  ADD CONSTRAINT `address_hotel` FOREIGN KEY (`address_id`) REFERENCES `ADDRESSES` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `hotel_groups_hotel` FOREIGN KEY (`hotel_group_id`) REFERENCES `HOTEL_GROUPS` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
