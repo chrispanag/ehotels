@@ -21,10 +21,10 @@ class Reservation {
             $this->room_id = $reservation_data["room_id"];
             $this->start_date = $reservation_data["start_date"];
             $this->finish_date = $reservation_data["finish_date"];
-            if ($reservation_data["paid"] == "on") {
-                $this->paid = true;
+            if (array_key_exists("paid", $reservation_data)) {
+                $this->paid = '1';
             } else {
-                $this->paid = false;
+                $this->paid = '0';
             }
         }
     }
@@ -35,6 +35,18 @@ class Reservation {
         $res = $con->query($sql);
         echo($con->error);
         return $res;
+    }
+
+    public static function createReservation($reservation_data) {
+        return new Reservation($reservation_data);
+    }
+
+    static function fetchAll() {
+        global $con;
+        $result = $con->query("SELECT * FROM RESERVES INNER JOIN CUSTOMERS ON CUSTOMERS.irs_number = RESERVES.customer_id");
+        echo($con->error);
+        $reservations_data = $result->fetch_all();
+        return array_map(array('Reservation','createReservation'), $reservations_data);
     }
 }
 

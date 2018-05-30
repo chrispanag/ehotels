@@ -18,6 +18,7 @@
   <a class="item" href= "./hotels">Hotels</a>
   <a class="item" href= "./rooms">Rooms</a>
   <a class="item" href= "./hotel_groups">Hotel Groups</a>
+  <a class="item" href= "./reservations">Reservations</a>
 </div>
 <div class="ui container">
 <br />

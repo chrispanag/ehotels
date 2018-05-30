@@ -113,12 +113,16 @@ switch ($request_uri[0]) {
     case '/deleteHotel':
         $hotelsController->deleteHotel();
         break;
+    case '/reservations':
+        $reservationsController->showAll();
+        break;
     case '/newReservation': 
         $reservationsController->newReservation();
         break;
     case '/new_reservation': 
         $reservationsController->addReservation();
         break;
+    
     // Everything else
     default:
         (new View('404', []))->render();

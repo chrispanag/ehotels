@@ -5,6 +5,13 @@ require_once '../models/room.php';
 require_once '../models/customer.php';
 
 class ReservationsController {
+    function showAll() {
+        $reservations = Reservation::fetchAll();
+        (new View('reservations', array(
+            'reservations' => $reservations
+        ), 'show'))->render();
+    }
+
     function newReservation() {
         $rooms = Room::fetchAll();
         $customers = Customer::fetchAll();
