@@ -29,7 +29,13 @@ class HotelGroupsController {
     function addHotelGroupView() {
         (new View('addHotelGroup', array(
             'phone' => "+XX XXXXXXXX",
-            'email' => "hotel_group@example.com"
+            'email' => "hotel_group@example.com",
+            'address' => new Address(array(
+                'city' => 'City',
+                'number' => 'XX',
+                'postal_code' => 'XXX XX',
+                'street' => 'Street'
+            ))
         ), "Add"))->render();
         die();
     }
@@ -45,7 +51,8 @@ class HotelGroupsController {
     }
 
     function addHotelGroup() {
-        if (HotelGroup::addHotelGroup($_POST) === FALSE) {
+        $hotel = new HotelGroup($_POST);
+        if ($hotel->store() === FALSE) {
             echo("Error");
         } else {
             header('Location: ./hotel_groups', TRUE, 302);

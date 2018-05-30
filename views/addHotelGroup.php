@@ -14,5 +14,6 @@
         <label>Phone</label>
         <input type="text" name="phone" placeholder="<?php echo($phone)?>">
     </div>
+    <?php include '../templates/address_fields.php' ?>
     <button class="ui button" type="submit">Create</button>
 </form>

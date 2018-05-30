@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: May 30, 2018 at 05:49 PM
+-- Generation Time: May 30, 2018 at 10:57 PM
 -- Server version: 8.0.2-dmr
 -- PHP Version: 7.2.5
 
@@ -36,6 +36,15 @@ CREATE TABLE `ADDRESSES` (
   `city` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `ADDRESSES`
+--
+
+INSERT INTO `ADDRESSES` (`address_id`, `street`, `number`, `postal_code`, `city`) VALUES
+(1, 'Υμηττού', '17', '16777', 'Ελληνικό'),
+(2, 'Υμηττού', '17', '16777', 'Ελληνικό'),
+(3, 'Υμηττού 17', '345', '16777', 'Ελληνικό');
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +60,13 @@ CREATE TABLE `CUSTOMERS` (
   `address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `CUSTOMERS`
+--
+
+INSERT INTO `CUSTOMERS` (`irs_number`, `ssn`, `first_name`, `last_name`, `first_registration`, `address_id`) VALUES
+('0987654', '45678990', 'Χρήστος', 'Παναγιωτακόπουλος', '2018-05-30 15:13:37', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -65,6 +81,13 @@ CREATE TABLE `EMPLOYEES` (
   `address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `EMPLOYEES`
+--
+
+INSERT INTO `EMPLOYEES` (`irs_number`, `ssn`, `first_name`, `last_name`, `address_id`) VALUES
+('34567890', '34567890', 'Χρήστος', 'Παναγιωτακόπουλος', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -75,10 +98,17 @@ CREATE TABLE `HOTELS` (
   `id` int(11) NOT NULL,
   `email_address` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `phone_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `stars` float NOT NULL,
+  `stars` enum('0','1','2','3','4','5') COLLATE utf8_unicode_ci NOT NULL,
   `hotel_group_id` int(11) NOT NULL,
   `address_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `HOTELS`
+--
+
+INSERT INTO `HOTELS` (`id`, `email_address`, `phone_number`, `stars`, `hotel_group_id`, `address_id`) VALUES
+(28, 'chrispanag@gmail.com', '6981684282', '4', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -89,7 +119,8 @@ CREATE TABLE `HOTELS` (
 CREATE TABLE `HOTEL_GROUPS` (
   `id` int(11) NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `hotel_number` int(11) GENERATED ALWAYS AS (_utf8mb4'SELECT COUNT(*) FROM HOTELS WHERE HOTELS.hotel_group_id = HOTEL_GROUPS.id') VIRTUAL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -102,6 +133,25 @@ INSERT INTO `HOTEL_GROUPS` (`id`, `email`, `phone`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `PAYMENT_TRANSACTIONS`
+--
+
+CREATE TABLE `PAYMENT_TRANSACTIONS` (
+  `id` int(11) NOT NULL,
+  `payment_amount` decimal(10,0) NOT NULL,
+  `payment_method` enum('CASH','CREDIT_CARD') COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `PAYMENT_TRANSACTIONS`
+--
+
+INSERT INTO `PAYMENT_TRANSACTIONS` (`id`, `payment_amount`, `payment_method`) VALUES
+(6, '6', 'CASH');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `RENTS`
 --
 
@@ -109,9 +159,17 @@ CREATE TABLE `RENTS` (
   `employee_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `customer_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `room_id` int(11) NOT NULL,
-  `start_date` timestamp NOT NULL,
-  `finish_date` timestamp NOT NULL
+  `start_date` date NOT NULL,
+  `finish_date` date NOT NULL,
+  `payment_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `RENTS`
+--
+
+INSERT INTO `RENTS` (`employee_id`, `customer_id`, `room_id`, `start_date`, `finish_date`, `payment_id`) VALUES
+('34567890', '0987654', 10, '2018-05-27', '2018-01-02', 6);
 
 -- --------------------------------------------------------
 
@@ -122,8 +180,8 @@ CREATE TABLE `RENTS` (
 CREATE TABLE `RESERVES` (
   `customer_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `room_id` int(11) NOT NULL,
-  `start_date` timestamp NOT NULL,
-  `finish_date` timestamp NOT NULL,
+  `start_date` date NOT NULL,
+  `finish_date` date NOT NULL,
   `paid` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
@@ -144,6 +202,13 @@ CREATE TABLE `ROOMS` (
   `hotel_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `ROOMS`
+--
+
+INSERT INTO `ROOMS` (`id`, `price`, `capacity`, `view`, `amenities`, `repairs_need`, `expendable`, `hotel_id`) VALUES
+(10, 6, 7, 'hroieworhew', 'khefhfuiewgr', 'houhweukrhweouh', 'kdhfuidwhfhw', 28);
+
 -- --------------------------------------------------------
 
 --
@@ -157,6 +222,13 @@ CREATE TABLE `WORKS` (
   `finish_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `position` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `WORKS`
+--
+
+INSERT INTO `WORKS` (`employee_id`, `hotel_id`, `start_date`, `finish_date`, `position`) VALUES
+('34567890', 28, '2018-05-30 15:26:36', NULL, 'manager');
 
 --
 -- Indexes for dumped tables
@@ -200,19 +272,26 @@ ALTER TABLE `HOTEL_GROUPS`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `PAYMENT_TRANSACTIONS`
+--
+ALTER TABLE `PAYMENT_TRANSACTIONS`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `RENTS`
 --
 ALTER TABLE `RENTS`
-  ADD PRIMARY KEY (`employee_id`,`customer_id`,`room_id`),
-  ADD KEY `customer_id_rents` (`customer_id`),
-  ADD KEY `room_id_rents` (`room_id`);
+  ADD PRIMARY KEY (`room_id`,`start_date`),
+  ADD UNIQUE KEY `payment_id` (`payment_id`),
+  ADD KEY `employee_rents` (`employee_id`),
+  ADD KEY `customer_rents` (`customer_id`);
 
 --
 -- Indexes for table `RESERVES`
 --
 ALTER TABLE `RESERVES`
-  ADD PRIMARY KEY (`customer_id`,`room_id`),
-  ADD KEY `room_id` (`room_id`);
+  ADD PRIMARY KEY (`room_id`,`start_date`) USING BTREE,
+  ADD KEY `customer_reserves` (`customer_id`);
 
 --
 -- Indexes for table `ROOMS`
@@ -236,13 +315,13 @@ ALTER TABLE `WORKS`
 -- AUTO_INCREMENT for table `ADDRESSES`
 --
 ALTER TABLE `ADDRESSES`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `HOTELS`
 --
 ALTER TABLE `HOTELS`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `HOTEL_GROUPS`
@@ -251,10 +330,16 @@ ALTER TABLE `HOTEL_GROUPS`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `PAYMENT_TRANSACTIONS`
+--
+ALTER TABLE `PAYMENT_TRANSACTIONS`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `ROOMS`
 --
 ALTER TABLE `ROOMS`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -283,16 +368,17 @@ ALTER TABLE `HOTELS`
 -- Constraints for table `RENTS`
 --
 ALTER TABLE `RENTS`
-  ADD CONSTRAINT `customer_id_rents` FOREIGN KEY (`customer_id`) REFERENCES `CUSTOMERS` (`irs_number`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `employee_id_rents` FOREIGN KEY (`employee_id`) REFERENCES `EMPLOYEES` (`irs_number`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `room_id_rents` FOREIGN KEY (`room_id`) REFERENCES `ROOMS` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `customer_rents` FOREIGN KEY (`customer_id`) REFERENCES `CUSTOMERS` (`irs_number`),
+  ADD CONSTRAINT `employee_rents` FOREIGN KEY (`employee_id`) REFERENCES `EMPLOYEES` (`irs_number`),
+  ADD CONSTRAINT `payment_rents` FOREIGN KEY (`payment_id`) REFERENCES `PAYMENT_TRANSACTIONS` (`id`),
+  ADD CONSTRAINT `room_rents` FOREIGN KEY (`room_id`) REFERENCES `ROOMS` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `RESERVES`
 --
 ALTER TABLE `RESERVES`
-  ADD CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `CUSTOMERS` (`irs_number`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `room_id` FOREIGN KEY (`room_id`) REFERENCES `ROOMS` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `customer_reserves` FOREIGN KEY (`customer_id`) REFERENCES `CUSTOMERS` (`irs_number`),
+  ADD CONSTRAINT `room_reserves` FOREIGN KEY (`room_id`) REFERENCES `ROOMS` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ROOMS`

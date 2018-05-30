@@ -15,9 +15,12 @@ class HotelGroup {
             $this->id = $hotel_group_data[0];
             $this->email = $hotel_group_data[1];
             $this->phone = $hotel_group_data[2];
+            if (count($hotel_group_data) > 5)
+                $this->address = new Address(array_slice($hotel_group_data, 4));
         } else {
             $this->email = $hotel_group_data["email"];
             $this->phone = $hotel_group_data["phone"];
+            $this->address = new Address($hotel_group_data);
         }
     }
 
@@ -44,9 +47,10 @@ class HotelGroup {
         return array_map(array('HotelGroup','createHotel_Group'), $hotel_groups_data);
     }
 
-    static function store($hotel_group) {
+    function store() {
         global $con;
-        $sql = "INSERT INTO HOTEL_GROUPS (email, phone) VALUES ('".$hotel_group->email."','".$hotel_group->phone."')";
+        $this->address_id = $this->address->store();
+        $sql = "INSERT INTO HOTEL_GROUPS (email, phone, address_id) VALUES ('".$this->email."','".$this->phone."','".$this->address_id."')";
         $res = $con->query($sql);
         echo($con->error);
         return $res;
