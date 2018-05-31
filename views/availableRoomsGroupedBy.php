@@ -1,5 +1,5 @@
 <?php 
-    $title = "Available Hotel Rooms";
+    $title = "Available Hotel Rooms By Location";
     $disableButton = True;
     
     include '../templates/title.php';
@@ -61,37 +61,16 @@
 <table class="ui celled table">
   <thead>
     <tr>
-    <th>Room id</th>
-    <th>Price</th>
-    <th>Capacity</th>
-    <th>View</th>
-    <th>Amenities</th>
-    <th>Expendable</th>
-    <th>Hotel</th>
-    <th>Actions</th>
+    <th>Rooms</th>
+    <th>Location</th>
   </tr></thead>
   <tbody>
   <?php 
-    foreach ($values["rooms"] as $room) { 
+    foreach ($locations as $location) { 
   ?>
     <tr>
-      <td><?php echo($room->id) ?></td>
-      <td><?php echo($room->price) ?></td>
-      <td><?php echo($room->capacity) ?></td>
-      <td><?php echo($room->view) ?></td>
-      <td><?php echo($room->amenities) ?></td>
-      <td><?php echo($room->expendable) ?></td>
-      <td><?php echo($room->hotel()->email) ?></td>
-      <td>
-      <div class="ui fluid vertical labeled icon buttons">
-        <a href="./reserveRoom?id=<?php echo($room->id) ?>&start_date=<?= $start_date?>&finish_date=<?= $finish_date?>"
-        <button class="ui button">
-          <i class="play icon"></i>
-          Reserve
-        </button>
-        </a>
-      </div>
-      </td>
+      <td><?php echo($location[0]) ?></td>
+      <td><?php echo($location[1]) ?></td>
     </tr>
   <?php } ?>
   </tbody>

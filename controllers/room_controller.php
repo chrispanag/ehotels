@@ -1,6 +1,7 @@
 <?php 
 require_once '../models/room.php';
 require_once '../models/hotel.php';
+require_once '../models/hotel_group.php';
 require_once '../models/customer.php';
 
 require_once '../controllers/view_controller.php';
@@ -15,21 +16,72 @@ class RoomController {
     }
 
     function showAllAvailable() {
+        $cities = Hotel::fetchAvailableAreas();
+        $hotel_groups = HotelGroup::fetchAll();
+
         $start_date = '0000-01-01';
         $finish_date = '2999-12-31';
+        $price_start = 0;
+        $price_upper = 10000;
+        $capacity = 0;
+        $stars = 0;
+        $selected_city = "";
+        $selected_hotel_group = "";
+
         if (array_key_exists('start_date', $_GET))
             $start_date = $_GET['start_date'];
         if (array_key_exists('finish_date', $_GET))
             $finish_date = $_GET['finish_date'];
+        if (array_key_exists('price_upper', $_GET))
+            $price_upper = $_GET['price_upper'];
+        if (array_key_exists('price_start', $_GET))
+            $price_start = $_GET['price_start'];
+        if (array_key_exists('capacity', $_GET))
+            $capacity = $_GET['capacity'];
+        if (array_key_exists('stars', $_GET))
+            $stars = $_GET['stars'];
+        if (array_key_exists('selected_city', $_GET))
+            $selected_city = $_GET['selected_city'];
+        if (array_key_exists('selected_hotel_group', $_GET))
+            $selected_hotel_group = $_GET['selected_hotel_group'];
 
-        $rooms = Room::fetchAvailable($start_date, $finish_date);
-        (new View('availableRooms', array(
-            'rooms' => $rooms,
-            'start_date' => $start_date,
-            'finish_date' => $finish_date
-            ) 
-        ))->render();
-        die();
+        if ($_GET['action'] == "default") {
+            $rooms = Room::fetchAvailable($start_date, $finish_date,  $price_start, $price_upper, $capacity, $stars, $selected_city, $selected_hotel_group);
+            (new View('availableRooms', array(
+                'rooms' => $rooms,
+                'start_date' => $start_date,
+                'finish_date' => $finish_date,
+                'price_upper' => $price_upper,
+                'price_start' => $price_start,
+                'capacity' => $capacity,
+                'stars' => $stars,
+                'cities' => $cities,
+                'hotel_groups' => $hotel_groups,
+                'selected_city' => $selected_city,
+                'selected_hotel_group' => $selected_hotel_group
+                ) 
+            ))->render();
+            die();
+        } else {
+            $locations = Room::fetchAvailableGroupBy($start_date, $finish_date,  $price_start, $price_upper, $capacity, $stars, $selected_city, $selected_hotel_group);
+            (new View('availableRoomsGroupedBy', array(
+                'locations' => $locations,
+                'start_date' => $start_date,
+                'finish_date' => $finish_date,
+                'price_upper' => $price_upper,
+                'price_start' => $price_start,
+                'capacity' => $capacity,
+                'stars' => $stars,
+                'cities' => $cities,
+                'hotel_groups' => $hotel_groups,
+                'selected_city' => $selected_city,
+                'selected_hotel_group' => $selected_hotel_group
+                ) 
+            ))->render();
+            die();
+        }
+
+        
     }
 
     function newRoom() {

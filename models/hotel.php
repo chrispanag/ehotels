@@ -51,7 +51,8 @@ class Hotel {
 
     function store() {
         global $con;
-        $this->address_id = $this->address->store();
+        $this->address->store();
+        $this->address_id = $this->address->id;
         $sql = "INSERT INTO HOTELS (email_address, phone_number, stars, hotel_group_id, address_id) VALUES ('".$this->email."','".$this->phone."','".$this->stars."','".$this->hotel_group_id."','".$this->address_id."')";
         $res = $con->query($sql);
         echo($con->error);
@@ -65,6 +66,39 @@ class Hotel {
         $res = $con->query($sql);
         echo($con->error);
         return $res;
+    }
+
+    function update ($field_list) {
+        if (count($field_list) > 0) {
+
+            $set_values = "";
+
+            unset($field_list["employee_id"]);
+            foreach ($field_list as $key => $value) {
+                if ($key == "email")
+                    $key = "email_address";
+                if ($key == "phone")
+                    $key = "phone_number";
+
+                if (gettype($value) == "string") {
+                    $value = "'{$value}'";
+                }
+                if ($value != "")
+                    $set_values .= $key ."=".$value.", ";
+            }
+
+            if ($set_values != "") {
+                global $con;
+
+                $set_values = substr($set_values, 0, -2)." ";
+                $sql = "UPDATE HOTELS SET {$set_values} WHERE id={$this->id}";
+                $res = $con->query($sql);
+                echo($con->error);
+                return $res;
+            }
+        }
+
+        return true;
     }
 
     function delete() {
@@ -95,6 +129,18 @@ class Hotel {
         echo($con->error);
         $hotels_data = $result->fetch_all();
         return array_map(array('Hotel','createHotel'), $hotels_data);
+    }
+
+    private static function unpack($element) {
+        return $element[0];
+    } 
+
+    static function fetchAvailableAreas() {
+        global $con;
+        $result = $con->query("SELECT DISTINCT ADDRESSES.city FROM HOTELS INNER JOIN ADDRESSES ON ADDRESSES.address_id = HOTELS.address_id");
+        echo($con->error);
+        $cities = $result->fetch_all();
+        return array_map(array('Hotel','unpack'), $cities);
     }
     
 }

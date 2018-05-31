@@ -12,7 +12,7 @@
 <body>
 <div class="ui inverted menu">
   <a class="header item" href="./"><h1><i class="home icon"></i> e-Hotels</h1></a>
-  <a class="item" href= "./available">Available Rooms</a>
+  <a class="item" href= "./available?action=default">Available Rooms</a>
   <a class="item" href= "./customers">Customers</a>
   <a class="item" href= "./employees">Employees</a>
   <a class="item" href= "./hotels">Hotels</a>

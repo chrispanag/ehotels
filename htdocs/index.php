@@ -92,8 +92,11 @@ switch ($request_uri[0]) {
     case '/new_hotel':
         $hotelsController->addHotel();
         break;
-    case '/editHotel':
+    case '/new_hotelEdit':
         $hotelsController->editHotel();
+        break;
+    case '/editHotel':
+        $hotelsController->editHotelView();
     // About page
     case '/hotel_groups':
         $hotelGroupsController->showAll();

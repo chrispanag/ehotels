@@ -41,8 +41,9 @@ class Customer {
 
     function store() {
         global $con;
-        $this->address_id = $this->address->store();
-        $sql = "INSERT INTO CUSTOMERS (irs_number, ssn, first_name, last_name, address_id) VALUES ('".$this->irs_number."','".$this->ssn."','".$this->first_name."','".$this->last_name."','".$this->address_id."')";
+        $this->address->store();
+        $this->address_id = $this->address->id;
+        $sql = "INSERT INTO CUSTOMERS (irs_number, ssn, first_name, last_name, address_id) VALUES ('".$this->irs_number."','".$this->ssn."','".$this->first_name."','".$this->last_name."',".$this->address_id.")";
         $res = $con->query($sql);
         echo($con->error);
         return $res;

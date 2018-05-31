@@ -5,7 +5,9 @@
 <div class="ui divider"></div>
 </div>
 
-<form class="ui large form" method="post" action="/new_hotel">
+<form class="ui large form" method="post" action="/new_hotel<? if ($type == "Edit") echo("Edit") ?>">
+    <input type="hidden" name="id" readonly="" value="<?php echo($id) ?>">
+    
     <div class="fields">
         <div class="field">
         <label>Email Address</label>
@@ -38,7 +40,7 @@
             <option value="">Select Managers</option>
             <?php foreach($employees as $employee) {
                 $selected = "";
-                if ($employee->irs_number === $irs_number) $selected = "selected"
+                if ($employee->irs_number == $irs_number) $selected = "selected"
             ?>
                 <option value="<?php echo($employee->irs_number) ?>" <?php echo($selected) ?>><?php echo($employee->first_name." ".$employee->last_name) ?> </option>
             <?php } ?>

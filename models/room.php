@@ -88,7 +88,7 @@ class Room {
         return new Room($rooms_data[0]);
     }
 
-    static function fetchAvailable($start_date, $finish_date) {
+    static function fetchAvailable($start_date, $finish_date, $price_range_bottom = 0, $price_range_top = 1000, $capacity = 1000, $stars, $selected_city, $selected_hotel_group) {
         global $con;
 
         $searchRENT = "WHERE (RENTS.start_date <= '{$start_date}' AND RENTS.finish_date >= '{$start_date}')
@@ -99,13 +99,105 @@ class Room {
         OR (RESERVES.start_date < '{$finish_date}' AND RESERVES.finish_date >= '{$finish_date}' )
         OR ('{$finish_date}' <= RESERVES.start_date AND '{$finish_date}' >= RESERVES.start_date)";
 
+        // For not in
         $one = "SELECT room_id FROM RENTS ". $searchRENT;
         $two = "SELECT room_id FROM RESERVES ". $searchRESERVES;
 
-        $result = $con->query("SELECT * FROM ROOMS WHERE (id NOT IN ({$one}) AND id NOT IN ({$two}))");
+        // For price range
+        $price_range = "(ROOMS.price BETWEEN {$price_range_bottom} AND {$price_range_top})";
+
+        $capacity_check = "(ROOMS.capacity >= {$capacity})";
+
+        $stars_check = "(HOTELS.stars >= {$stars})";
+
+        $city_check = "1";
+        if ($selected_city != "") $city_check = "(ADDRESSES.city = '{$selected_city}')";
+
+        $hotel_group_check = "1";
+        if ($selected_hotel_group != "") $hotel_group_check = "(HOTEL_GROUPS.id = '{$selected_hotel_group}')";
+
+        $returning_fields = "
+            ROOMS.id,
+            ROOMS.price, 
+            ROOMS.capacity, 
+            ROOMS.view, 
+            ROOMS.amenities, 
+            ROOMS.repairs_need, 
+            ROOMS.expendable, 
+            ROOMS.hotel_id
+        ";
+
+        $result = $con->query("SELECT {$returning_fields} FROM 
+            ROOMS 
+            INNER JOIN HOTELS ON ROOMS.hotel_id = HOTELS.id
+            INNER JOIN HOTEL_GROUPS ON HOTELS.hotel_group_id = HOTEL_GROUPS.id
+            INNER JOIN ADDRESSES ON HOTELS.address_id = ADDRESSES.address_id
+            WHERE 
+                (ROOMS.id NOT IN ({$one}) 
+                AND ROOMS.id NOT IN ({$two})) 
+                AND {$price_range} 
+                AND {$capacity_check}
+                AND {$stars_check}
+                AND {$city_check}
+                AND {$hotel_group_check}");
+
         echo($con->error);
         $rooms_data = $result->fetch_all();
         return array_map(array('Room','createRoom'), $rooms_data);
+    }
+
+    static function fetchAvailableGroupBy($start_date, $finish_date, $price_range_bottom = 0, $price_range_top = 1000, $capacity = 1000, $stars, $selected_city, $selected_hotel_group) {
+        global $con;
+
+        $searchRENT = "WHERE (RENTS.start_date <= '{$start_date}' AND RENTS.finish_date >= '{$start_date}')
+        OR (RENTS.start_date < '{$finish_date}' AND RENTS.finish_date >= '{$finish_date}' )
+        OR ('{$finish_date}' <= RENTS.start_date AND '{$finish_date}' >= RENTS.start_date)";
+
+        $searchRESERVES = "WHERE  (RESERVES.start_date <= '{$start_date}' AND RESERVES.finish_date >= '{$start_date}')
+        OR (RESERVES.start_date < '{$finish_date}' AND RESERVES.finish_date >= '{$finish_date}' )
+        OR ('{$finish_date}' <= RESERVES.start_date AND '{$finish_date}' >= RESERVES.start_date)";
+
+        // For not in
+        $one = "SELECT room_id FROM RENTS ". $searchRENT;
+        $two = "SELECT room_id FROM RESERVES ". $searchRESERVES;
+
+        // For price range
+        $price_range = "(ROOMS.price BETWEEN {$price_range_bottom} AND {$price_range_top})";
+
+        $capacity_check = "(ROOMS.capacity >= {$capacity})";
+
+        $stars_check = "(HOTELS.stars >= {$stars})";
+
+        $city_check = "1";
+        if ($selected_city != "") $city_check = "(ADDRESSES.city = '{$selected_city}')";
+
+        $hotel_group_check = "1";
+        if ($selected_hotel_group != "") $hotel_group_check = "(HOTEL_GROUPS.id = '{$selected_hotel_group}')";
+
+        $returning_fields = "
+            COUNT(ROOMS.id),
+            ADDRESSES.city
+        ";
+
+        $result = $con->query("SELECT {$returning_fields} 
+            FROM ROOMS 
+            INNER JOIN HOTELS ON ROOMS.hotel_id = HOTELS.id
+            INNER JOIN HOTEL_GROUPS ON HOTELS.hotel_group_id = HOTEL_GROUPS.id
+            INNER JOIN ADDRESSES ON HOTELS.address_id = ADDRESSES.address_id
+            WHERE (
+                (ROOMS.id NOT IN ({$one}) 
+                AND ROOMS.id NOT IN ({$two})) 
+                AND {$price_range} 
+                AND {$capacity_check}
+                AND {$stars_check}
+                AND {$city_check}
+                AND {$hotel_group_check}
+            )
+            GROUP BY ADDRESSES.city");
+
+        echo($con->error);
+        $rooms_data = $result->fetch_all();
+        return $rooms_data;
     }
     
 }

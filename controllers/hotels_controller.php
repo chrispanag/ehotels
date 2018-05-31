@@ -17,6 +17,7 @@ class HotelsController {
         $hotel_groups = HotelGroup::fetchAll();
         $employees = Employee::fetchAll();
         (new View('addHotel', array(
+            'id' => "",
             'hotel_groups' => $hotel_groups, 
             'employees' => $employees,
             'irs_number' => "",
@@ -34,16 +35,17 @@ class HotelsController {
         die();
     }
 
-    function editHotel() {
+    function editHotelView() {
         $hotel = Hotel::fetchOne($_GET["id"]);
         $hotel_groups = HotelGroup::fetchAll();
         $employees = Employee::fetchAll();
         (new View('addHotel', array(
+            'id' => $hotel->id,
             'hotel_groups' => $hotel_groups, 
             'employees' => $employees,
             'irs_number' => $hotel->manager->irs_number,
             'hotel_group_id' => $hotel->hotel_group_id,
-                'stars' => $hotel->stars,
+            'stars' => $hotel->stars,
             'phone' => $hotel->phone,
             'email' => $hotel->email,
             'address' => $hotel->address
@@ -60,6 +62,18 @@ class HotelsController {
             header('Location: ./hotels', TRUE, 302);
         }
         die();   
+    }
+
+    function editHotel() {
+        $hotel = Hotel::fetchOne($_POST["id"]);
+        unset($_POST['id']);
+
+        if ($hotel->update($_POST))
+            header('Location: ./hotels', TRUE, 302);
+        else
+            echo("Error");
+
+        die();
     }
 
     function deleteHotel() {
